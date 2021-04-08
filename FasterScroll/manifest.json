@@ -4,12 +4,13 @@
   "name": "FasterScroll",
   "author": "Aryetis",
   "version": "0.0.1",
-  "description": "Speed up menu scrollers",
+  "description": "Increases SongList scrolling speed",
   "gameVersion": "1.14.0",
   "dependsOn": {
+    "BeatSaberMarkupLanguage": "^1.5.1",
     "BSIPA": "^4.1.6"
   },
   "links": {
-    "project-home": "https://github.com/Aryetis/MAYBELAYERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"
+    "project-home": "https://github.com/Aryetis/FasterScroll/tree/master"
   }
 }

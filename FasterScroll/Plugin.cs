@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using IPA;
-using IPA.Config;
-using IPA.Config.Stores;
 using UnityEngine;
 using IPALogger = IPA.Logging.Logger;
+using BeatSaberMarkupLanguage.Settings;
+using IPA.Config;
 
 namespace FasterScroll
 {
@@ -23,34 +19,18 @@ namespace FasterScroll
         internal static FasterScrollController PluginController { get { return FasterScrollController.Instance; } }
 
         [Init]
-        public Plugin(IPALogger logger)
+        public Plugin(IPALogger logger, Config conf)
         {
             Instance = this;
             Plugin.Log = logger;
             Plugin.Log?.Debug("Logger initialized.");
         }
 
-        #region BSIPA Config
-        //Uncomment to use BSIPA's config
-        /*
-        [Init]
-        public void InitWithConfig(Config conf)
-        {
-            Configuration.PluginConfig.Instance = conf.Generated<Configuration.PluginConfig>();
-            Plugin.Log?.Debug("Config loaded");
-        }
-        */
-        #endregion
-
-
-        #region Disableable
-
-        /// <summary>
-        /// Called when the plugin is enabled (including when the game starts if the plugin is enabled).
-        /// </summary>
+#region Disableable
         [OnEnable]
         public void OnEnable()
         {
+            BSMLSettings.instance.AddSettingsMenu("FasterScroll", "FasterScroll.Views.Settings.bsml", PluginSettings.instance);
             new GameObject("FasterScrollController").AddComponent<FasterScrollController>();
             ApplyHarmonyPatches();
         }
@@ -58,26 +38,14 @@ namespace FasterScroll
         [OnDisable]
         public void OnDisable()
         {
+            BSMLSettings.instance.RemoveSettingsMenu(PluginSettings.instance);
             if (PluginController != null)
                 GameObject.Destroy(PluginController);
             RemoveHarmonyPatches();
         }
+#endregion
 
-        /*
-        /// <summary>
-        /// Called when the plugin is disabled and on Beat Saber quit.
-        /// Return Task for when the plugin needs to do some long-running, asynchronous work to disable.
-        /// [OnDisable] methods that return Task are called after all [OnDisable] methods that return void.
-        /// </summary>
-        [OnDisable]
-        public async Task OnDisableAsync()
-        {
-            await LongRunningUnloadTask().ConfigureAwait(false);
-        }
-        */
-        #endregion
-
-        #region Harmony
+#region Harmony
         internal static void ApplyHarmonyPatches()
         {
             try
@@ -105,6 +73,6 @@ namespace FasterScroll
                 Plugin.Log?.Debug(ex);
             }
         }
-        #endregion
+#endregion
     }
 }

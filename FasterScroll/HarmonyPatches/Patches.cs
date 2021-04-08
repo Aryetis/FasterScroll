@@ -20,7 +20,7 @@ namespace FasterScroll.Patches
             {
                 FasterScrollController.InitialSetup(__instance);
 
-                if (!FasterScrollController.IsAccelMode())
+                if (FasterScrollController.FasterScrollMode() == FasterScrollController.FasterScrollModeEnum.Constant)
                     FasterScrollController.ScrollViewPatcherConstant(__instance);
             }
             return;
@@ -33,7 +33,9 @@ namespace FasterScroll.Patches
     {
         static void Prefix(ScrollView __instance, Vector2 deltaPos)
         {
-            if (FasterScrollController.IsAccelMode() && __instance.transform.parent.gameObject.name == "LevelsTableView")
+            if ( (     FasterScrollController.FasterScrollMode() == FasterScrollController.FasterScrollModeEnum.Exp
+                    || FasterScrollController.FasterScrollMode() == FasterScrollController.FasterScrollModeEnum.Linear
+                  ) && __instance.transform.parent.gameObject.name == "LevelsTableView")
             {
                 FasterScrollController.ScrollViewPatcherDynamic(deltaPos, __instance);
             }
@@ -46,7 +48,9 @@ namespace FasterScroll.Patches
     {
         static void Prefix(ScrollView __instance)
         {
-            if (FasterScrollController.IsAccelMode() && __instance.transform.parent.gameObject.name == "LevelsTableView")
+            if ( (     FasterScrollController.FasterScrollMode() == FasterScrollController.FasterScrollModeEnum.Exp 
+                    || FasterScrollController.FasterScrollMode() == FasterScrollController.FasterScrollModeEnum.Linear
+                 )  && __instance.transform.parent.gameObject.name == "LevelsTableView")
             {
                 FasterScrollController.ResetInertia();
             }
