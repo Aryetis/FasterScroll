@@ -1,6 +1,6 @@
 <settings-container>
 	<horizontal horizontal-fit="PreferredSize">
-		<text text='It s probably gonna be a pain in the ass to make this menu dynamic' align='Center'></text>
+		<text text='It s probably gonna be a pain in the ass to make this menu dynamic. Expect a proper menu for a proper release' align='Center'></text>
 	</horizontal>
   
 	<horizontal horizontal-fit="PreferredSize">
@@ -29,7 +29,7 @@
 
 	<horizontal horizontal-fit="PreferredSize">
 		<dropdown-list-setting  apply-on-change="true" 
-						value="CustomRumbleMode" 
+						value="CustomRumbleModeString" 
 						choices='CustomRumbleModeOptions'  
 						text="SongList Rumble Mode" 
 						hover-hint="Rumble mode used when scrolling Songlist">
@@ -38,7 +38,7 @@
 
 	<horizontal horizontal-fit="PreferredSize">
 		<dropdown-list-setting  apply-on-change="true" 
-						value="FasterScrollMode" 
+						value="FasterScrollModeString" 
 						choices='FasterScrollModeOptions'  
 						text="Scrolling Mode" 
 						hover-hint="Change the scrolling speed's curve">

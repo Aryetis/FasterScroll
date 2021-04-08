@@ -13,7 +13,7 @@ namespace FasterScroll
             Constant,
             Linear,
             Exp,
-            Default // TODO lol
+            Stock // TODO lol
         }
         public enum RumbleModeEnum
         {
@@ -90,7 +90,7 @@ namespace FasterScroll
                     m_fInertia = Mathf.Exp(PluginSettings.instance.Accel) * m_fScrollTimer;
                     break;
                 }
-                case FasterScrollModeEnum.Default:
+                case FasterScrollModeEnum.Stock:
                 case FasterScrollModeEnum.Linear:
                 {
                     return;
@@ -123,7 +123,7 @@ namespace FasterScroll
             if (m_oHaptic == null)
                 SetHapticFeedbackController();
 
-            switch (PluginSettings.instance.RumbleMode)
+            switch (PluginSettings.instance.CustomRumbleMode)
             {
                 case RumbleModeEnum.Override:
                 {
@@ -150,7 +150,7 @@ namespace FasterScroll
             if (m_oHaptic == null)
                 SetHapticFeedbackController();
 
-            switch (PluginSettings.instance.RumbleMode)
+            switch (PluginSettings.instance.CustomRumbleMode)
             {
                 case RumbleModeEnum.Override :
                 {
