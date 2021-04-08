@@ -119,7 +119,7 @@
     <None Include="Directory.Build.props" Condition="Exists('Directory.Build.props')" />
     <None Include="Directory.Build.targets" Condition="Exists('Directory.Build.targets')" />
     <None Include="FasterScroll.csproj.user" Condition="Exists('FasterScroll.csproj.user')" />
-    <None Include="Views\Settings.bsml" />
+    <EmbeddedResource Include="Views\Settings.bsml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BeatSaberModdingTools.Tasks">

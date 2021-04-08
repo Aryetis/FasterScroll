@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
 namespace FasterScroll
 {
-    public class PluginSettings : PersistentSingleton<PluginSettings>
+    class PluginSettings : PersistentSingleton<PluginSettings>
     {
         [UIValue("CustomRumbleStrength")]
         public float CustomRumbleStrength { get; set; } = 0.15f;
@@ -17,11 +17,11 @@ namespace FasterScroll
         [UIValue("MaxSpeed")]
         public float MaxSpeed { get; set; } = 3000.00f;
 
-        [UIValue("CustomRumbleStrengthOptions")]
+        [UIValue("CustomRumbleModeOptions")]
         private System.Collections.Generic.List<object> RumbleModeOptions 
                 = new object[] { "Default", "Override", "None" }.ToList();
             
-        [UIValue("CustomRumbleStrength")]
+        [UIValue("CustomRumbleMode")]
         public FasterScrollController.RumbleModeEnum RumbleMode { get; set; } 
                             = FasterScrollController.RumbleModeEnum.Override;
 

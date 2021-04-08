@@ -2,8 +2,8 @@
 	<horizontal horizontal-fit="PreferredSize">
 		<text text='It s probably gonna be a pain in the ass to make this menu dynamic' align='Center'></text>
 	</horizontal>
-
-	<!--<horizontal horizontal-fit="PreferredSize">
+  
+	<horizontal horizontal-fit="PreferredSize">
 		<slider-setting apply-on-change="true" 
 						value="CustomRumbleStrength" 
 						text="Override Rumble Strength"
@@ -29,8 +29,8 @@
 
 	<horizontal horizontal-fit="PreferredSize">
 		<dropdown-list-setting  apply-on-change="true" 
-						value="CustomRumbleStrength" 
-						choices='CustomRumbleStrengthOptions'  
+						value="CustomRumbleMode" 
+						choices='CustomRumbleModeOptions'  
 						text="SongList Rumble Mode" 
 						hover-hint="Rumble mode used when scrolling Songlist">
 		</dropdown-list-setting >
@@ -43,5 +43,5 @@
 						text="Scrolling Mode" 
 						hover-hint="Change the scrolling speed's curve">
 		</dropdown-list-setting >
-	</horizontal>-->
+	</horizontal>
 </settings-container>
