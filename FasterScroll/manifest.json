@@ -1,0 +1,15 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json",
+  "id": "FasterScroll",
+  "name": "FasterScroll",
+  "author": "Aryetis",
+  "version": "0.0.1",
+  "description": "Speed up menu scrollers",
+  "gameVersion": "1.14.0",
+  "dependsOn": {
+    "BSIPA": "^4.1.6"
+  },
+  "links": {
+    "project-home": "https://github.com/Aryetis/MAYBELAYERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"
+  }
+}
