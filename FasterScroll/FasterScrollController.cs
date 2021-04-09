@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿//#define DEBUG_FASTERSCROLL
+using UnityEngine;
 using HMUI;
 using IPA.Utilities;
 using VRUIControls;
 using System.Linq;
+using System.Collections;
+using Libraries.HM.HMLib.VR;
 
 namespace FasterScroll
 {
@@ -13,16 +16,16 @@ namespace FasterScroll
             Constant,
             Linear,
             Exp,
-            Stock // TODO lol
+            Stock
         }
         public enum RumbleModeEnum
         {
-            Default,
+            Stock,
             Override,
             None
         }
         public static FasterScrollController Instance { get; private set; }
-        public static FasterScrollModeEnum FasterScrollMode() { return PluginSettings.instance.FasterScrollMode; }
+        public static FasterScrollModeEnum FasterScrollMode { get { return PluginSettings.instance.FasterScrollMode; } private set {} }
         public static float RumbleStrength { get { return m_fRumbleStrength; } private set { } }
 
         #region public
@@ -42,7 +45,31 @@ namespace FasterScroll
 
             ResetInertia();
             Plugin.Log?.Debug($"{name}: Awake()");
+#if DEBUG_FASTERSCROLL
+            StartCoroutine(DebugUpdate());
+#endif
         }
+
+#if DEBUG_FASTERSCROLL
+        private IEnumerator DebugUpdate()
+        {
+            while (true)
+            {
+                Plugin.Log?.Debug($"{name}:" +
+                                  $" Faster Scroll Mode : {PluginSettings.instance.FasterScrollMode.ToString()} \n" +
+                                  $" RumbleMode : {PluginSettings.instance.CustomRumbleMode.ToString()} \n" +
+                                  $" Custom Rumble Strength : {PluginSettings.instance.CustomRumbleStrength} \n" +
+                                  $" Scroll Acceleration : {PluginSettings.instance.Accel} \n" +
+                                  $" Scroll Max Speed : {PluginSettings.instance.MaxSpeed} \n" +
+                                  $" Inertia : {m_fInertia} \n" +
+                                  $" Scroll Speed : {m_fCustomSpeed} \n" +
+                                  $" Stock Scroll Speed : {m_fStockScrollSpeed} \n" +
+                                  $" Actual Rumble Strength : {m_fRumbleStrength} \n" +
+                                  $" Stock Rumble Strength : {m_fStockRumbleStrength} \n");
+                yield return new WaitForSeconds(1.0f);
+            }
+        }
+#endif
 
         private void OnDestroy()
         {
@@ -61,9 +88,8 @@ namespace FasterScroll
         {
             if (sv.transform.parent.gameObject.name == "LevelsTableView")
             {
-                Destroy(sv.transform.parent.gameObject);
                 sv.SetField("_joystickScrollSpeed", 300.0f);
-                Plugin.Log?.Debug($"PATCHED CONSTANT _joystickScrollSpeed value  : { sv.GetField<float, ScrollView>("_joystickScrollSpeed") }");
+                Plugin.Log?.Debug($"PATCHED CONSTANT _joystickScrollSpeed value : { sv.GetField<float, ScrollView>("_joystickScrollSpeed") }");
             }
         }
 
@@ -71,6 +97,12 @@ namespace FasterScroll
         {
             songListScrollView = sv;
             m_fStockScrollSpeed = sv.GetField<float, ScrollView>("_joystickScrollSpeed");
+        }
+
+        public static void SetStockRumbleStrength(VRInputModule vrinmod)
+        {
+            HapticPresetSO hapticPreset = vrinmod.GetField<HapticPresetSO, VRInputModule>("_rumblePreset");
+            m_fStockRumbleStrength = hapticPreset._strength;
         }
 
         // Prefix : ScrollView::HandleJoystickWasNotCenteredThisFrame(Vector2 deltaPos)
@@ -115,7 +147,6 @@ namespace FasterScroll
                 m_oHaptic = vrInputModule.GetField<HapticFeedbackController, VRInputModule>("_hapticFeedbackController");
             else
                 Plugin.Log?.Error($"Couldn't find HapticFeedbackController");
-            m_fStockRumbleStrength = 1.0f; // TODO actually get it jic
         }
 
         public static void PostHandlePointerDidEnter()
@@ -135,39 +166,21 @@ namespace FasterScroll
                     m_fRumbleStrength = 0.0f;
                     break;
                 }
-                case RumbleModeEnum.Default:
+                case RumbleModeEnum.Stock:
                 {
-                    m_fRumbleStrength = m_fStockRumbleStrength;
+                    // TODO detect if nalulululuna's RumbleMod is installed, if so don't use m_fStockRumbleStrength
+                    m_fRumbleStrength = m_fStockRumbleStrength; 
                     break;
                 }
             }
         }
 
-        // TODO handle nalulululuna/RumbleMod compatibility => 
-        // if detected use its Configuration.PluginConfig.Instance.strength_ui for RumbleModeEnum.Default
         public static void PostHandlePointerDidExit()
         {
             if (m_oHaptic == null)
                 SetHapticFeedbackController();
 
-            switch (PluginSettings.instance.CustomRumbleMode)
-            {
-                case RumbleModeEnum.Override :
-                {
-                    m_fRumbleStrength = m_fStockRumbleStrength;
-                    break;
-                }
-                case RumbleModeEnum.None:
-                {
-                    m_fRumbleStrength = m_fStockRumbleStrength;
-                    break;
-                }
-                case RumbleModeEnum.Default:
-                {
-                    m_fRumbleStrength = m_fStockRumbleStrength;
-                    break;
-                }
-            }
+            m_fRumbleStrength = m_fStockRumbleStrength;
         }
 
 #region private
@@ -175,20 +188,13 @@ namespace FasterScroll
         private static ScrollView songListScrollView;
 
         private static float m_fInertia;
-        private static float m_fCustomSpeed; // stock value : 60.0f;
+        private static float m_fCustomSpeed; // stock value : 60.0f
         private static float m_fScrollTimer;
         private static float m_fStockScrollSpeed;
 
         private static HapticFeedbackController m_oHaptic;
-        private static float m_fStockRumbleStrength;
+        private static float m_fStockRumbleStrength; // stock value : 1.0f
         private static float m_fRumbleStrength;
-
-        // TODO move everything in PluginSettings \/
-        //private static float m_customRumbleStrength;// = 0.15f;
-        //private static float m_fAccel;// = 1.0f;
-        //private static float m_fMaxSpeed;// = 6000.0f;
-        //private static RumbleMode m_eRumble;// = RumbleMode.None;
-        //private static FasterScrollModeEnum m_eFasterScrollMode;// = FasterScrollModeEnum.Exp;
         #endregion private
     }
 }

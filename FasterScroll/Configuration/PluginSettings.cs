@@ -3,6 +3,7 @@ using IPA.Config.Stores;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
+
 [assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
 namespace FasterScroll
 {
@@ -19,11 +20,11 @@ namespace FasterScroll
 
         [UIValue("CustomRumbleModeOptions")]
         private System.Collections.Generic.List<object> RumbleModeOptions
-                = new object[] { "Default", "Override", "None" }.ToList();
+                = new object[] { "Stock", "Override", "None" }.ToList();
 
         [UIValue("CustomRumbleModeString")]
         public string CustomRumbleModeString { get; set; } = "Override";
-        public FasterScrollController.RumbleModeEnum CustomRumbleMode { get; set; }
+        public FasterScrollController.RumbleModeEnum CustomRumbleMode { get; set; } = FasterScrollController.RumbleModeEnum.Override;
 
         [UIValue("FasterScrollModeOptions")]
         private System.Collections.Generic.List<object> FasterScrollModeOptions
@@ -31,7 +32,7 @@ namespace FasterScroll
 
         [UIValue("FasterScrollModeString")]
         public string FasterScrollModeString { get; set; } = "Exp";
-        public FasterScrollController.FasterScrollModeEnum FasterScrollMode { get; set; }
+        public FasterScrollController.FasterScrollModeEnum FasterScrollMode { get; set; } = FasterScrollController.FasterScrollModeEnum.Exp;
 
         [UIAction("#apply")]
         public void OnApply()

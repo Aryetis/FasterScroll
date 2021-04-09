@@ -5,7 +5,7 @@ using UnityEngine;
 using VRUIControls;
 using Libraries.HM.HMLib.VR;
 
-// TODO reapply all harmony patches upon settings modifications
+// TODO reapply all harmony patches upon settings modifications ?
 namespace FasterScroll.Patches
 {
     [HarmonyPatch(typeof(ScrollView))]
@@ -20,7 +20,7 @@ namespace FasterScroll.Patches
             {
                 FasterScrollController.InitialSetup(__instance);
 
-                if (FasterScrollController.FasterScrollMode() == FasterScrollController.FasterScrollModeEnum.Constant)
+                if (FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Constant)
                     FasterScrollController.ScrollViewPatcherConstant(__instance);
             }
             return;
@@ -33,8 +33,8 @@ namespace FasterScroll.Patches
     {
         static void Prefix(ScrollView __instance, Vector2 deltaPos)
         {
-            if ( (     FasterScrollController.FasterScrollMode() == FasterScrollController.FasterScrollModeEnum.Exp
-                    || FasterScrollController.FasterScrollMode() == FasterScrollController.FasterScrollModeEnum.Linear
+            if ((FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Exp
+                    || FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Linear
                   ) && __instance.transform.parent.gameObject.name == "LevelsTableView")
             {
                 FasterScrollController.ScrollViewPatcherDynamic(deltaPos, __instance);
@@ -48,9 +48,9 @@ namespace FasterScroll.Patches
     {
         static void Prefix(ScrollView __instance)
         {
-            if ( (     FasterScrollController.FasterScrollMode() == FasterScrollController.FasterScrollModeEnum.Exp 
-                    || FasterScrollController.FasterScrollMode() == FasterScrollController.FasterScrollModeEnum.Linear
-                 )  && __instance.transform.parent.gameObject.name == "LevelsTableView")
+            if ((FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Exp
+                    || FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Linear
+                 ) && __instance.transform.parent.gameObject.name == "LevelsTableView")
             {
                 FasterScrollController.ResetInertia();
             }
@@ -77,8 +77,20 @@ namespace FasterScroll.Patches
         }
     }
 
-    [HarmonyPatch(typeof(VRInputModule), "HandlePointerExitAndEnter")]
-    static class VRInputModuleHandlePointerExitAndEnter
+    [HarmonyPatch(typeof(BaseInputModule))]
+    [HarmonyPatch("OnEnable")]
+    class VRInputModuleAwakePostFixPatch
+    {
+        static void Postfix(BaseInputModule __instance/*HapticPresetSO ____rumblePreset*/)
+        {
+            if (__instance is VRInputModule)
+                FasterScrollController.SetStockRumbleStrength(__instance as VRInputModule);
+        }
+    }
+
+    [HarmonyPatch(typeof(VRInputModule))]
+    [HarmonyPatch("HandlePointerExitAndEnter")]
+    class VRInputModuleHandlePointerExitAndEnterPreFixPatch
     {
         static void Prefix(HapticPresetSO ____rumblePreset, GameObject newEnterTarget)
         {
