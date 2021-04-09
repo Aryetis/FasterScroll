@@ -1,4 +1,4 @@
-<settings-container>
+<settings-container child-control-width="true" child-expand-width="true">
 	<horizontal horizontal-fit="PreferredSize">
 		<dropdown-list-setting  apply-on-change="true"
 						on-change="FasterScrollModeStringUpdate"
@@ -8,17 +8,17 @@
 						hover-hint="Change the scrolling speed's curve">
 		</dropdown-list-setting >
 	</horizontal>
-	<horizontal horizontal-fit="PreferredSize">
+	<horizontal horizontal-fit="PreferredSize" active="~showAccel">
 		<slider-setting apply-on-change="true" 
-						active="~showAccel"
+						
 						value="Accel" 
 						text="Scroll Acceleration"
 						hover-hint="Scroll Acceleration, goes vroom vroom"
 						min="1" max="2" increment="0.1"></slider-setting>
 	</horizontal>
-	<horizontal horizontal-fit="PreferredSize">
+	<horizontal horizontal-fit="PreferredSize" active="~showMaxSpeed">
 		<slider-setting apply-on-change="true" 
-						active="~showMaxSpeed"
+						
 						value="MaxSpeed" 
 						text="Scroll Max Speed"
 						hover-hint="Scrolling's max speed (default is 60)"
@@ -33,9 +33,9 @@
 						hover-hint="Rumble mode used when scrolling Songlist">
 		</dropdown-list-setting >
 	</horizontal>
-	<horizontal horizontal-fit="PreferredSize">
+	<horizontal horizontal-fit="PreferredSize" active="~showCustomRumbleStrength">
 		<slider-setting apply-on-change="true"
-						active="~showCustomRumbleStrength"
+						
 						value="CustomRumbleStrength" 
 						text="Override Rumble Strength"
 						hover-hint="Value used to override rumble's strength when scrolling Songlist"
