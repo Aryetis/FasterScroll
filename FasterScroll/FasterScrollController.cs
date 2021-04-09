@@ -88,7 +88,7 @@ namespace FasterScroll
         {
             if (sv.transform.parent.gameObject.name == "LevelsTableView")
             {
-                sv.SetField("_joystickScrollSpeed", 300.0f);
+                sv.SetField("_joystickScrollSpeed", PluginConfig.Instance.MaxSpeed);
                 Plugin.Log?.Debug($"PATCHED CONSTANT _joystickScrollSpeed value : { sv.GetField<float, ScrollView>("_joystickScrollSpeed") }");
             }
         }
