@@ -29,7 +29,7 @@
 	</horizontal>
 	<horizontal horizontal-fit="PreferredSize">
 		<dropdown-list-setting  apply-on-change="true"
-            on-change="CustomRumbleModeStringUpdate"
+						on-change="CustomRumbleModeStringUpdate"
 						value="CustomRumbleModeString"
 						choices="CustomRumbleModeOptions"
 						text="SongList Rumble Mode"
@@ -38,7 +38,7 @@
 	</horizontal>
 	<horizontal horizontal-fit="PreferredSize">
 		<slider-setting apply-on-change="true"
-            active="~showCustomRumbleStrength"
+						active="~showCustomRumbleStrength"
 						value="CustomRumbleStrength" 
 						text="Override Rumble Strength"
 						hover-hint="Value used to override rumble's strength when scrolling Songlist"

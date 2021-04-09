@@ -27,12 +27,12 @@ namespace FasterScroll
         [UIValue("CustomRumbleModeString")]
         public string CustomRumbleModeString { get; set; }
         [UIAction("CustomRumbleModeStringUpdate")]
-        private void CustomRumbleModeStringUpdate(string _)
+        private void CustomRumbleModeStringUpdate(string newVal)
         {
-            Plugin.Log?.Error($"new rumble mode : {_}");
+            Plugin.Log?.Error($"new rumble mode : {newVal}");
             for (int i = 0; i < m_lCustomRumbleModeOptions.Count; i++)
             {
-                if (CustomRumbleModeString == m_lCustomRumbleModeOptions[i] as string)
+                if (newVal == m_lCustomRumbleModeOptions[i] as string)
                 {
                     PluginConfig.Instance.CustomRumbleMode = (FasterScrollController.RumbleModeEnum)i;
                     showCustomRumbleStrength = (PluginConfig.Instance.CustomRumbleMode == FasterScrollController.RumbleModeEnum.Override);
