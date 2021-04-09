@@ -1,6 +1,9 @@
 <settings-container>
 	<horizontal horizontal-fit="PreferredSize">
-		<text text='It s probably gonna be a pain in the ass to make this menu dynamic. Expect a proper menu for a proper release' align='Center'></text>
+		<text text='Can t wait to make this menu dynamic... Shoot me plz' align='Center'></text>
+	</horizontal>
+	<horizontal horizontal-fit="PreferredSize">
+		<text text='Expect a proper menu for a proper release.' align='Center'></text>
 	</horizontal>
   
 	<horizontal horizontal-fit="PreferredSize">
@@ -26,21 +29,22 @@
 						hover-hint="Scrolling's max speed (default is 60)"
 						min="50" max="3000" increment="50"></slider-setting>
 	</horizontal>
+  
 
 	<horizontal horizontal-fit="PreferredSize">
-		<dropdown-list-setting  apply-on-change="true" 
-						value="CustomRumbleModeString" 
-						choices='CustomRumbleModeOptions'  
-						text="SongList Rumble Mode" 
+		<dropdown-list-setting  apply-on-change="true"
+						value="CustomRumbleModeString"
+						choices="CustomRumbleModeOptions"
+						text="SongList Rumble Mode"
 						hover-hint="Rumble mode used when scrolling Songlist">
 		</dropdown-list-setting >
 	</horizontal>
 
 	<horizontal horizontal-fit="PreferredSize">
-		<dropdown-list-setting  apply-on-change="true" 
-						value="FasterScrollModeString" 
-						choices='FasterScrollModeOptions'  
-						text="Scrolling Mode" 
+		<dropdown-list-setting  apply-on-change="true"
+						value="FasterScrollModeString"
+						choices="FasterScrollModeOptions"
+						text="Scrolling Mode"
 						hover-hint="Change the scrolling speed's curve">
 		</dropdown-list-setting >
 	</horizontal>

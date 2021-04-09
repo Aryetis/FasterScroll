@@ -25,7 +25,7 @@ namespace FasterScroll
             None
         }
         public static FasterScrollController Instance { get; private set; }
-        public static FasterScrollModeEnum FasterScrollMode { get { return PluginSettings.instance.FasterScrollMode; } private set {} }
+        public static FasterScrollModeEnum FasterScrollMode { get { return PluginConfig.Instance.FasterScrollMode; } private set {} }
         public static float RumbleStrength { get { return m_fRumbleStrength; } private set { } }
 
         #region public
@@ -110,16 +110,16 @@ namespace FasterScroll
         public static void ScrollViewPatcherDynamic(Vector2 deltaPos, ScrollView sv)
         {
             m_fScrollTimer += Time.deltaTime;
-            switch(PluginSettings.instance.FasterScrollMode)
+            switch(PluginConfig.Instance.FasterScrollMode)
             {
                 case FasterScrollModeEnum.Constant:
                 {
-                    m_fInertia = PluginSettings.instance.Accel* m_fScrollTimer;
+                    m_fInertia = PluginConfig.Instance.Accel* m_fScrollTimer;
                     break;
                 }
                 case FasterScrollModeEnum.Exp:
                 {
-                    m_fInertia = Mathf.Exp(PluginSettings.instance.Accel) * m_fScrollTimer;
+                    m_fInertia = Mathf.Exp(PluginConfig.Instance.Accel) * m_fScrollTimer;
                     break;
                 }
                 case FasterScrollModeEnum.Stock:
@@ -129,7 +129,7 @@ namespace FasterScroll
                 }
             }
 
-            m_fCustomSpeed = Mathf.Clamp(m_fInertia * m_fStockScrollSpeed, 0.0f, PluginSettings.instance.MaxSpeed);
+            m_fCustomSpeed = Mathf.Clamp(m_fInertia * m_fStockScrollSpeed, 0.0f, PluginConfig.Instance.MaxSpeed);
             sv.SetField("_joystickScrollSpeed", m_fCustomSpeed);
             //Plugin.Log?.Debug($"NEW VALUE : { sv.GetField<float, ScrollView>("_joystickScrollSpeed") }");
         }
@@ -154,11 +154,11 @@ namespace FasterScroll
             if (m_oHaptic == null)
                 SetHapticFeedbackController();
 
-            switch (PluginSettings.instance.CustomRumbleMode)
+            switch (PluginConfig.Instance.CustomRumbleMode)
             {
                 case RumbleModeEnum.Override:
                 {
-                    m_fRumbleStrength = PluginSettings.instance.CustomRumbleStrength;
+                    m_fRumbleStrength = PluginConfig.Instance.CustomRumbleStrength;
                     break;
                 }
                 case RumbleModeEnum.None:

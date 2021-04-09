@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FasterScroll", "FasterScroll\FasterScroll.csproj", "{5C8A34A0-E114-4E0D-946B-DB0E8AC519B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5C8A34A0-E114-4E0D-946B-DB0E8AC519B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C8A34A0-E114-4E0D-946B-DB0E8AC519B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C8A34A0-E114-4E0D-946B-DB0E8AC519B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C8A34A0-E114-4E0D-946B-DB0E8AC519B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F6073ED7-F83B-431D-83DE-F4F5BC9ED772}
+	EndGlobalSection
+EndGlobal

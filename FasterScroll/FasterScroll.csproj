@@ -107,8 +107,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\PluginConfig.cs" />
     <Compile Include="Plugin.cs" />
-    <Compile Include="Configuration\PluginSettings.cs" />
+    <Compile Include="PluginSettings.cs" />
     <Compile Include="FasterScrollController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -5,6 +5,7 @@ using UnityEngine;
 using IPALogger = IPA.Logging.Logger;
 using BeatSaberMarkupLanguage.Settings;
 using IPA.Config;
+using IPA.Config.Stores;
 
 namespace FasterScroll
 {
@@ -24,6 +25,7 @@ namespace FasterScroll
             Instance = this;
             Plugin.Log = logger;
             Plugin.Log?.Debug("Logger initialized.");
+            PluginConfig.Instance = conf.Generated<PluginConfig>();
         }
 
 #region Disableable
