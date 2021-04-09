@@ -1,12 +1,7 @@
 <settings-container>
 	<horizontal horizontal-fit="PreferredSize">
-		<text text='Can t wait to make this menu dynamic... Shoot me plz' align='Center'></text>
-	</horizontal>
-	<horizontal horizontal-fit="PreferredSize">
-		<text text='Expect a proper menu for a proper release.' align='Center'></text>
-	</horizontal>
-	<horizontal horizontal-fit="PreferredSize">
 		<dropdown-list-setting  apply-on-change="true"
+						on-change="FasterScrollModeStringUpdate"
 						value="FasterScrollModeString"
 						choices="FasterScrollModeOptions"
 						text="Scrolling Mode"
@@ -15,6 +10,7 @@
 	</horizontal>
 	<horizontal horizontal-fit="PreferredSize">
 		<slider-setting apply-on-change="true" 
+						active="~showAccel"
 						value="Accel" 
 						text="Scroll Acceleration"
 						hover-hint="Scroll Acceleration, goes vroom vroom"
@@ -22,6 +18,7 @@
 	</horizontal>
 	<horizontal horizontal-fit="PreferredSize">
 		<slider-setting apply-on-change="true" 
+						active="~showMaxSpeed"
 						value="MaxSpeed" 
 						text="Scroll Max Speed"
 						hover-hint="Scrolling's max speed (default is 60)"
