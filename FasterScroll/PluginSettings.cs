@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using BeatSaberMarkupLanguage.Components;
+using BeatSaberMarkupLanguage.Parser;
 
 namespace FasterScroll
 {
     public class PluginSettings : NotifiableSingleton<PluginSettings>
     {
+        [UIParams]
+        private BSMLParserParams m_oParserParams;
+
         [UIValue("FasterScrollModeOptions")]
         private List<object> m_lFasterScrollModeOptions
             = (System.Enum.GetNames(typeof(FasterScrollController.FasterScrollModeEnum))).OfType<object>().ToList();
@@ -31,7 +35,6 @@ namespace FasterScroll
                 NotifyPropertyChanged();
             }
         }
-
         [UIAction("FasterScrollModeStringUpdate")]
         private void FasterScrollModeStringUpdate(string newVal)
         {
@@ -133,7 +136,6 @@ namespace FasterScroll
         [UIAction("ResetSettingsClicked")]
         private void ResetSettingsClicked()
         {
-            Plugin.Log?.Debug("RESET SETTINGS SANITY CHECK");
             m_sFasterScrollModeString = System.Enum.GetName(typeof(FasterScrollController.FasterScrollModeEnum), PluginConfig.DefaultFasterScrollMode);
             m_fAccel = PluginConfig.DefaultAccel;
             m_bShowAccel = true;
@@ -143,6 +145,7 @@ namespace FasterScroll
             m_sCustomRumbleModeString = System.Enum.GetName(typeof(FasterScrollController.RumbleModeEnum), PluginConfig.DefaultCustomRumbleMode);
             m_fCustomRumbleStrength = PluginConfig.DefaultCustomRumbleStrength;
             m_bShowCustomRumbleStrength = true;
+            m_oParserParams.EmitEvent("cancel");
         }
     }
 }
