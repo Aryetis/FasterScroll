@@ -130,17 +130,18 @@ namespace FasterScroll
             set { PluginConfig.Instance.CustomRumbleStrength = value; NotifyPropertyChanged(); }
         }
 
-        [UIAction("ResetDefaultClicked")]
-        private void ResetDefault()
+        [UIAction("ResetSettingsClicked")]
+        private void ResetSettingsClicked()
         {
-            PluginConfig.Instance.FasterScrollMode = PluginConfig.DefaultFasterScrollMode;
-            PluginConfig.Instance.Accel = PluginConfig.DefaultAccel;
+            Plugin.Log?.Debug("RESET SETTINGS SANITY CHECK");
+            m_sFasterScrollModeString = System.Enum.GetName(typeof(FasterScrollController.FasterScrollModeEnum), PluginConfig.DefaultFasterScrollMode);
+            m_fAccel = PluginConfig.DefaultAccel;
             m_bShowAccel = true;
-            PluginConfig.Instance.MaxSpeed = PluginConfig.DefaultMaxSpeed;
+            m_fMaxSpeed = PluginConfig.DefaultMaxSpeed;
             m_bShowMaxSpeed = true;
 
-            PluginConfig.Instance.CustomRumbleMode = PluginConfig.DefaultCustomRumbleMode;
-            PluginConfig.Instance.CustomRumbleStrength = PluginConfig.DefaultCustomRumbleStrength;
+            m_sCustomRumbleModeString = System.Enum.GetName(typeof(FasterScrollController.RumbleModeEnum), PluginConfig.DefaultCustomRumbleMode);
+            m_fCustomRumbleStrength = PluginConfig.DefaultCustomRumbleStrength;
             m_bShowCustomRumbleStrength = true;
         }
     }

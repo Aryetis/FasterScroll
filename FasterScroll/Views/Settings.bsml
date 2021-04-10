@@ -40,8 +40,8 @@
 	</horizontal>
   <horizontal horizontal-fit="PreferredSize">
 		<button apply-on-change="true"
-            on-click="ResetDefaultClicked"
-            text="Default"
+            on-click="ResetSettingsClicked"
+            text="Reset Settings"
             hover-hint="Reset settings to default values">
     </button>
   </horizontal>

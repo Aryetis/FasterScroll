@@ -20,9 +20,9 @@ namespace FasterScroll
         }
         public enum RumbleModeEnum
         {
-            Stock,
             Override,
-            None
+            None,
+            Stock
         }
         public static FasterScrollController Instance { get; private set; }
         public static FasterScrollModeEnum FasterScrollMode { get { return PluginConfig.Instance.FasterScrollMode; } private set {} }
