@@ -8,9 +8,30 @@ namespace FasterScroll
     public class PluginSettings : NotifiableSingleton<PluginSettings>
     {
         [UIValue("FasterScrollModeOptions")]
-        private List<object> m_lFasterScrollModeOptions = new object[] { "Constant", "Linear", "Exp", "Stock" }.ToList();
+        private List<object> m_lFasterScrollModeOptions
+            = (System.Enum.GetNames(typeof(FasterScrollController.FasterScrollModeEnum))).OfType<object>().ToList();
         [UIValue("FasterScrollModeString")]
-        private string m_sFasterScrollModeString { get; set; }
+        private string m_sFasterScrollModeString 
+        {
+            get
+            {
+                return System.Enum.GetName(typeof(FasterScrollController.FasterScrollModeEnum)
+                                                , PluginConfig.Instance.FasterScrollMode);
+            }
+            set
+            {
+                for (int i = 0; i < m_lFasterScrollModeOptions.Count; i++)
+                {
+                    if (value == m_lFasterScrollModeOptions[i] as string)
+                    {
+                        PluginConfig.Instance.FasterScrollMode = (FasterScrollController.FasterScrollModeEnum)i;
+                        break;
+                    }
+                }
+                NotifyPropertyChanged();
+            }
+        }
+
         [UIAction("FasterScrollModeStringUpdate")]
         private void FasterScrollModeStringUpdate(string newVal)
         {
@@ -19,9 +40,9 @@ namespace FasterScroll
                 if (newVal == m_lFasterScrollModeOptions[i] as string)
                 {
                     PluginConfig.Instance.FasterScrollMode = (FasterScrollController.FasterScrollModeEnum)i;
-                    showAccel = (PluginConfig.Instance.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Exp)
+                    m_bShowAccel = (PluginConfig.Instance.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Exp)
                              || (PluginConfig.Instance.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Linear);
-                    showMaxSpeed = (PluginConfig.Instance.FasterScrollMode != FasterScrollController.FasterScrollModeEnum.Stock);
+                    m_bShowMaxSpeed = (PluginConfig.Instance.FasterScrollMode != FasterScrollController.FasterScrollModeEnum.Stock);
                     break;
                 }
             }
@@ -29,30 +50,59 @@ namespace FasterScroll
 
         // (Stock || Constant) Scroll => Hide Accel
         [UIValue("showAccel")]
-        private bool showAccel
+        private bool m_bShowAccel
         {
             get => (PluginConfig.Instance.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Exp)
                    || (PluginConfig.Instance.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Linear);
             set { NotifyPropertyChanged(); }
         }
         [UIValue("Accel")]
-        private float m_fAccel { get; set; }
+        private float m_fAccel 
+        { 
+            get => PluginConfig.Instance.Accel;
+            set { PluginConfig.Instance.Accel = value; NotifyPropertyChanged(); }
+        }
 
         // Stock Scroll => Hide MaxSpeed
         [UIValue("showMaxSpeed")]
-        private bool showMaxSpeed
+        private bool m_bShowMaxSpeed
         {
             get => (PluginConfig.Instance.FasterScrollMode != FasterScrollController.FasterScrollModeEnum.Stock);
             set { NotifyPropertyChanged(); }
         }
         [UIValue("MaxSpeed")]
-        private float m_fMaxSpeed { get; set; }
+        private float m_fMaxSpeed
+        {
+            get => PluginConfig.Instance.MaxSpeed;
+            set { PluginConfig.Instance.MaxSpeed = value; NotifyPropertyChanged(); } 
+        }
 
         // RumbleMode Override => Hide RumbleStrength
         [UIValue("CustomRumbleModeOptions")]
-        private List<object> m_lCustomRumbleModeOptions = new object[] { "Stock", "Override", "None" }.ToList();
+        private List<object> m_lCustomRumbleModeOptions
+            = (System.Enum.GetNames(typeof(FasterScrollController.RumbleModeEnum))).OfType<object>().ToList();
+
         [UIValue("CustomRumbleModeString")]
-        private string CustomRumbleModeString { get; set; }
+        private string m_sCustomRumbleModeString
+        { 
+            get
+            {
+                return System.Enum.GetName(typeof(FasterScrollController.RumbleModeEnum)
+                                                , PluginConfig.Instance.CustomRumbleMode);
+            }
+            set
+            {
+                for (int i = 0; i < m_lCustomRumbleModeOptions.Count; i++)
+                {
+                    if (value == m_lCustomRumbleModeOptions[i] as string)
+                    {
+                        PluginConfig.Instance.CustomRumbleMode = (FasterScrollController.RumbleModeEnum)i;
+                        break;
+                    }
+                }
+                NotifyPropertyChanged();
+            }
+        }
         [UIAction("CustomRumbleModeStringUpdate")]
         private void CustomRumbleModeStringUpdate(string newVal)
         {
@@ -61,57 +111,37 @@ namespace FasterScroll
                 if (newVal == m_lCustomRumbleModeOptions[i] as string)
                 {
                     PluginConfig.Instance.CustomRumbleMode = (FasterScrollController.RumbleModeEnum)i;
-                    showCustomRumbleStrength = (PluginConfig.Instance.CustomRumbleMode == FasterScrollController.RumbleModeEnum.Override);
+                    m_bShowCustomRumbleStrength = (PluginConfig.Instance.CustomRumbleMode == FasterScrollController.RumbleModeEnum.Override);
                     break;
                 }
             }
         }
 
         [UIValue("showCustomRumbleStrength")]
-        private bool showCustomRumbleStrength
+        private bool m_bShowCustomRumbleStrength
         {
             get => (PluginConfig.Instance.CustomRumbleMode == FasterScrollController.RumbleModeEnum.Override);
             set { NotifyPropertyChanged(); }
         }
         [UIValue("CustomRumbleStrength")]
-        private float m_fCustomRumbleStrength { get; set; }
-
-        PluginSettings()
+        private float m_fCustomRumbleStrength
         {
-            m_fCustomRumbleStrength = PluginConfig.Instance.CustomRumbleStrength;
-            m_fAccel = PluginConfig.Instance.Accel;
-            m_fMaxSpeed = PluginConfig.Instance.MaxSpeed;
-            CustomRumbleModeString = System.Enum.GetName(typeof(FasterScrollController.RumbleModeEnum)
-                                                            , PluginConfig.Instance.CustomRumbleMode);
-            m_sFasterScrollModeString = System.Enum.GetName(typeof(FasterScrollController.FasterScrollModeEnum)
-                                                            , PluginConfig.Instance.FasterScrollMode);
+            get => PluginConfig.Instance.CustomRumbleStrength;
+            set { PluginConfig.Instance.CustomRumbleStrength = value; NotifyPropertyChanged(); }
         }
 
-        [UIAction("#apply")]
-        private void OnApply()
+        [UIAction("ResetDefaultClicked")]
+        private void ResetDefault()
         {
-            PluginConfig.Instance.CustomRumbleStrength = m_fCustomRumbleStrength;
-            PluginConfig.Instance.Accel = m_fAccel;
-            PluginConfig.Instance.MaxSpeed = m_fMaxSpeed;
+            PluginConfig.Instance.FasterScrollMode = PluginConfig.DefaultFasterScrollMode;
+            PluginConfig.Instance.Accel = PluginConfig.DefaultAccel;
+            m_bShowAccel = true;
+            PluginConfig.Instance.MaxSpeed = PluginConfig.DefaultMaxSpeed;
+            m_bShowMaxSpeed = true;
 
-            for (int i = 0; i < m_lCustomRumbleModeOptions.Count; i++)
-            {
-                if (CustomRumbleModeString == m_lCustomRumbleModeOptions[i] as string)
-                {
-                    PluginConfig.Instance.CustomRumbleMode = (FasterScrollController.RumbleModeEnum)i;
-                    break;
-                }
-            }
-
-            for (int i = 0; i < m_lFasterScrollModeOptions.Count; i++)
-            {
-                if (m_sFasterScrollModeString == m_lFasterScrollModeOptions[i] as string)
-                {
-                    PluginConfig.Instance.FasterScrollMode = (FasterScrollController.FasterScrollModeEnum)i;
-                    break;
-                }
-            }
+            PluginConfig.Instance.CustomRumbleMode = PluginConfig.DefaultCustomRumbleMode;
+            PluginConfig.Instance.CustomRumbleStrength = PluginConfig.DefaultCustomRumbleStrength;
+            m_bShowCustomRumbleStrength = true;
         }
-
     }
 }

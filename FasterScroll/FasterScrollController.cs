@@ -1,4 +1,4 @@
-﻿//#define DEBUG_FASTERSCROLL
+﻿#define DEBUG_FASTERSCROLL
 using UnityEngine;
 using HMUI;
 using IPA.Utilities;
@@ -55,12 +55,12 @@ namespace FasterScroll
         {
             while (true)
             {
-                Plugin.Log?.Debug($"{name}:" +
-                                  $" Faster Scroll Mode : {PluginSettings.instance.FasterScrollMode.ToString()} \n" +
-                                  $" RumbleMode : {PluginSettings.instance.CustomRumbleMode.ToString()} \n" +
-                                  $" Custom Rumble Strength : {PluginSettings.instance.CustomRumbleStrength} \n" +
-                                  $" Scroll Acceleration : {PluginSettings.instance.Accel} \n" +
-                                  $" Scroll Max Speed : {PluginSettings.instance.MaxSpeed} \n" +
+                Plugin.Log?.Debug($"{name}:\n" +
+                                  $" Faster Scroll Mode : {PluginConfig.Instance.FasterScrollMode.ToString()} \n" +
+                                  $" Scroll Acceleration : {PluginConfig.Instance.Accel} \n" +
+                                  $" Scroll Max Speed : {PluginConfig.Instance.MaxSpeed} \n" +
+                                  $" RumbleMode : {PluginConfig.Instance.CustomRumbleMode.ToString()} \n" +
+                                  $" Custom Rumble Strength : {PluginConfig.Instance.CustomRumbleStrength} \n" +
                                   $" Inertia : {m_fInertia} \n" +
                                   $" Scroll Speed : {m_fCustomSpeed} \n" +
                                   $" Stock Scroll Speed : {m_fStockScrollSpeed} \n" +

@@ -10,7 +10,6 @@
 	</horizontal>
 	<horizontal horizontal-fit="PreferredSize" active="~showAccel">
 		<slider-setting apply-on-change="true" 
-						
 						value="Accel" 
 						text="Scroll Acceleration"
 						hover-hint="Scroll Acceleration, goes vroom vroom"
@@ -18,7 +17,6 @@
 	</horizontal>
 	<horizontal horizontal-fit="PreferredSize" active="~showMaxSpeed">
 		<slider-setting apply-on-change="true" 
-						
 						value="MaxSpeed" 
 						text="Scroll Max Speed"
 						hover-hint="Scrolling's max speed (default is 60)"
@@ -35,10 +33,16 @@
 	</horizontal>
 	<horizontal horizontal-fit="PreferredSize" active="~showCustomRumbleStrength">
 		<slider-setting apply-on-change="true"
-						
 						value="CustomRumbleStrength" 
 						text="Override Rumble Strength"
 						hover-hint="Value used to override rumble's strength when scrolling Songlist"
 						min="0" max="1.0" increment="0.05"></slider-setting>
 	</horizontal>
+  <horizontal horizontal-fit="PreferredSize">
+		<button apply-on-change="true"
+            on-click="ResetDefaultClicked"
+            text="Default"
+            hover-hint="Reset settings to default values">
+    </button>
+  </horizontal>
 </settings-container>
