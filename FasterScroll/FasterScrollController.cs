@@ -1,10 +1,14 @@
-﻿//#define DEBUG_FASTERSCROLL
+﻿#define DEBUG_FASTERSCROLL
 using UnityEngine;
 using HMUI;
 using IPA.Utilities;
 using VRUIControls;
 using System.Linq;
 using Libraries.HM.HMLib.VR;
+
+#if DEBUG_FASTERSCROLL
+using System.Collections;
+#endif
 
 namespace FasterScroll
 {
@@ -44,33 +48,13 @@ namespace FasterScroll
             GameObject.DontDestroyOnLoad(this); // Don't destroy this object on scene changes
             Instance = this;
 
-            InitMembers();
+            IsRumbleDirty = false;
+            ResetInertia();
             Plugin.Log?.Debug($"{name}: Awake()");
 #if DEBUG_FASTERSCROLL
-            StartCoroutine(DebugUpdate());
+            //StartCoroutine(DebugUpdate());
 #endif
         }
-
-#if DEBUG_FASTERSCROLL
-        private IEnumerator DebugUpdate()
-        {
-            while (true)
-            {
-                Plugin.Log?.Debug($"{name}:\n" +
-                                  $" Faster Scroll Mode : {PluginConfig.Instance.FasterScrollMode.ToString()} \n" +
-                                  $" Scroll Acceleration : {PluginConfig.Instance.Accel} \n" +
-                                  $" Scroll Max Speed : {PluginConfig.Instance.MaxSpeed} \n" +
-                                  $" RumbleMode : {PluginConfig.Instance.CustomRumbleMode.ToString()} \n" +
-                                  $" Custom Rumble Strength : {PluginConfig.Instance.CustomRumbleStrength} \n" +
-                                  $" Inertia : {m_fInertia} \n" +
-                                  $" Scroll Speed : {m_fCustomSpeed} \n" +
-                                  $" Stock Scroll Speed : {m_fStockScrollSpeed} \n" +
-                                  $" Actual Rumble Strength : {m_fRumbleStrength} \n" +
-                                  $" Stock Rumble Strength : {m_fStockRumbleStrength} \n");
-                yield return new WaitForSeconds(1.0f);
-            }
-        }
-#endif
 
         private void OnDestroy()
         {
@@ -96,25 +80,36 @@ namespace FasterScroll
             m_fStockRumbleStrength = hapticPreset._strength;
         }
 
-        public static void InitMembers()
+        public static void ResetInertia()
         {
-            m_fInertia = 0.0f; m_fScrollTimer = 0.0f; IsRumbleDirty = true;
+            m_fInertia = 0.0f; m_fScrollTimer = 0.0f;
         } // TODO check what happens when coming back from level with inertia
 
         /******************************
          *      Actual Fun stuff      *
          ******************************/
 
-        // Postfix : ScrollView::Awake()
-        public static void ScrollViewPatcherConstant(ScrollView sv)
+        public static void ScrollViewPatcherConstant(LevelCollectionTableView lctv)
         {
+            TableView tv = lctv.GetField<TableView, LevelCollectionTableView>("_tableView");
+            ScrollView sv = tv.GetComponent<ScrollView>();
+
             if (sv.transform.parent.gameObject.name == "LevelsTableView")
                 sv.SetField("_joystickScrollSpeed", PluginConfig.Instance.MaxSpeed);
         }
 
+        public static void ScrollViewPatcherStock(LevelCollectionTableView lctv)
+        {
+            TableView tv = lctv.GetField<TableView, LevelCollectionTableView>("_tableView");
+            ScrollView sv = tv.GetComponent<ScrollView>();
+
+            if (sv.transform.parent.gameObject.name == "LevelsTableView")
+                sv.SetField("_joystickScrollSpeed", m_fStockScrollSpeed);
+        }
+
         // Prefix : ScrollView::HandleJoystickWasNotCenteredThisFrame(Vector2 deltaPos)
         // Called every update when joystick is aiming at Song's list and its input != Vector2.zero 
-        public static void ScrollViewPatcherDynamic(Vector2 deltaPos, ScrollView sv)
+        public static void ScrollViewPatcherDynamic(ScrollView sv)
         {
             m_fScrollTimer += Time.deltaTime;
             switch(PluginConfig.Instance.FasterScrollMode)
@@ -214,5 +209,42 @@ namespace FasterScroll
         //    set { } 
         //}
         #endregion private
+
+        /******************************
+         *         Debug stuff        *
+         ******************************/
+#region debug
+#if DEBUG_FASTERSCROLL
+        private IEnumerator DebugUpdate()
+        {
+            while (true)
+            {
+                Plugin.Log?.Debug($"{name}:\n" +
+                                  $" Faster Scroll Mode : {PluginConfig.Instance.FasterScrollMode.ToString()} \n" +
+                                  $" Scroll Acceleration : {PluginConfig.Instance.Accel} \n" +
+                                  $" Scroll Max Speed : {PluginConfig.Instance.MaxSpeed} \n" +
+                                  $" RumbleMode : {PluginConfig.Instance.CustomRumbleMode.ToString()} \n" +
+                                  $" Custom Rumble Strength : {PluginConfig.Instance.CustomRumbleStrength} \n" +
+                                  $" Inertia : {m_fInertia} \n" +
+                                  $" Scroll Speed : {m_fCustomSpeed} \n" +
+                                  $" Stock Scroll Speed : {m_fStockScrollSpeed} \n" +
+                                  $" Actual Rumble Strength : {m_fRumbleStrength} \n" +
+                                  $" Stock Rumble Strength : {m_fStockRumbleStrength} \n");
+                yield return new WaitForSeconds(1.0f);
+            }
+        }
+
+        public static string GetGameObjectFullPath(GameObject go)
+        {
+            string path = "/" + go.name;
+            while (go.transform.parent != null)
+            {
+                go = go.transform.parent.gameObject;
+                path = "/" + go.name + path;
+            }
+            return path;
+        }
     }
+#endif
+#endregion debug
 }

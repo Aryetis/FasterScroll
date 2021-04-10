@@ -7,11 +7,12 @@ using Libraries.HM.HMLib.VR;
 
 // TODO reapply all harmony patches upon settings modifications ? 
 // Probably shouldn't have to do that if organized properly, let's trace stuff
+// TODO test all that with vanilla songList ... without songBrowser... hopefuly stuff shouldn't be that different
 namespace FasterScroll.Patches
 {
     [HarmonyPatch(typeof(ScrollView))]
     [HarmonyPatch("Awake")]
-    class ScrollViewAwakePatch // TODO will probably only be called once (without scene transition) => bad stuff
+    class ScrollViewAwakePatch
     {
         static void Prefix(ScrollView __instance)
         {
@@ -20,14 +21,45 @@ namespace FasterScroll.Patches
             if (__instance.transform.parent.gameObject.name == "LevelsTableView")
             {
 Plugin.Log?.Error("ScrollViewAwakePatch");
-                FasterScrollController.SetStockScrollSpeed(__instance); // TODO will probably be called only once => will not intercept changes from RumbleMod
-
-                if (FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Constant)
-                    FasterScrollController.ScrollViewPatcherConstant(__instance);
+                FasterScrollController.SetStockScrollSpeed(__instance);
             }
             return;
         }
     }
+
+    [HarmonyPatch(typeof(BaseInputModule))]
+    [HarmonyPatch("OnEnable")]
+    class VRInputModuleAwakePostFixPatch
+    {
+        static void Postfix(BaseInputModule __instance)
+        {
+            if (__instance is VRInputModule)
+            {
+                Plugin.Log?.Error("VRInputModuleAwakePostFixPatch");
+                // TODO will probably be called only once => will not intercept changes on UI strength from RumbleMod
+                FasterScrollController.SetStockRumbleStrength(__instance as VRInputModule);
+            }
+        }
+    }
+
+
+    [HarmonyPatch(typeof(LevelCollectionTableView))]
+    [HarmonyPatch("OnEnable")]
+    class TLevelCollectionTableViewOnEnablePostFixPatch
+    {
+        static void Postfix(LevelCollectionTableView __instance)
+        {
+Plugin.Log?.Error("TLevelCollectionTableViewOnEnablePostFixPatch");
+            if (FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Constant)
+                FasterScrollController.ScrollViewPatcherConstant(__instance);
+            if (FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Stock)
+                FasterScrollController.ScrollViewPatcherStock(__instance); // Repatching to stock if previously was on Constant
+        }
+    }
+
+    /******************************
+     *       Set ScrollSpeed      *
+     ******************************/
 
     [HarmonyPatch(typeof(ScrollView))]
     [HarmonyPatch("HandleJoystickWasNotCenteredThisFrame")]
@@ -39,8 +71,8 @@ Plugin.Log?.Error("ScrollViewAwakePatch");
                     || FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Linear
                   ) && __instance.transform.parent.gameObject.name == "LevelsTableView")
             {
-Plugin.Log?.Error("ScrollViewHandleJoystickWasNotCenteredThisFramePostfixPatch");
-                FasterScrollController.ScrollViewPatcherDynamic(deltaPos, __instance);
+//Plugin.Log?.Error("ScrollViewHandleJoystickWasNotCenteredThisFramePostfixPatch");
+                FasterScrollController.ScrollViewPatcherDynamic(__instance);
             }
         }
     }
@@ -55,19 +87,22 @@ Plugin.Log?.Error("ScrollViewHandleJoystickWasNotCenteredThisFramePostfixPatch")
                     || FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Linear
                  ) && __instance.transform.parent.gameObject.name == "LevelsTableView")
             {
-Plugin.Log?.Error("ScrollViewHandleJoystickWasCenteredThisFramePostfixPatch");
-                FasterScrollController.InitMembers();
+//Plugin.Log?.Error("ScrollViewHandleJoystickWasCenteredThisFramePostfixPatch");
+                FasterScrollController.ResetInertia();
             }
         }
     }
 
+    /******************************
+     *         Set Rumble         *
+     ******************************/
     [HarmonyPatch(typeof(ScrollView))]
     [HarmonyPatch("HandlePointerDidEnter")]
     class ScrollViewHandlePointerDidEnterPostFixPatch
     {
         static void Prefix(ScrollView __instance, PointerEventData eventData)
         {
-Plugin.Log?.Error("ScrollViewHandlePointerDidEnterPostFixPatch");
+//Plugin.Log?.Error("ScrollViewHandlePointerDidEnterPostFixPatch");
             FasterScrollController.PostHandlePointerDidEnter();
         }
     }
@@ -78,22 +113,8 @@ Plugin.Log?.Error("ScrollViewHandlePointerDidEnterPostFixPatch");
     {
         static void Prefix(ScrollView __instance, PointerEventData eventData)
         {
-Plugin.Log?.Error("ScrollViewHandlePointerDidExitPostFixPatch");
+//Plugin.Log?.Error("ScrollViewHandlePointerDidExitPostFixPatch");
             FasterScrollController.PostHandlePointerDidExit();
-        }
-    }
-
-    [HarmonyPatch(typeof(BaseInputModule))]
-    [HarmonyPatch("OnEnable")]
-    class VRInputModuleAwakePostFixPatch
-    {
-        static void Postfix(BaseInputModule __instance)
-        {
-            if (__instance is VRInputModule)
-            {
-Plugin.Log?.Error("VRInputModuleAwakePostFixPatch");
-                FasterScrollController.SetStockRumbleStrength(__instance as VRInputModule);
-            }
         }
     }
 
@@ -105,7 +126,7 @@ Plugin.Log?.Error("VRInputModuleAwakePostFixPatch");
         {
             if (FasterScrollController.IsRumbleDirty)
             {
-Plugin.Log?.Error("VRInputModuleHandlePointerExitAndEnterPreFixPatch");
+//Plugin.Log?.Error("VRInputModuleHandlePointerExitAndEnterPreFixPatch");
                 ____rumblePreset._strength = FasterScrollController.RumbleStrength;
                 FasterScrollController.IsRumbleDirty = false;
             }
