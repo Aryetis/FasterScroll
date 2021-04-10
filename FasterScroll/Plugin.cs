@@ -9,7 +9,7 @@ using IPA.Config.Stores;
 
 namespace FasterScroll
 {
-    [Plugin(RuntimeOptions.DynamicInit)] // TODO turn into nondynamic ... otherwise it will be a pain in the butt to reset potential tweaked scrollvalue 
+    [Plugin(RuntimeOptions.SingleStartInit)]
     public class Plugin
     {
         public const string HarmonyId = "com.github.Aryetis.FasterScroll";
@@ -17,7 +17,6 @@ namespace FasterScroll
 
         internal static Plugin Instance { get; private set; }
         internal static IPALogger Log { get; private set; }
-        internal static FasterScrollController PluginController { get { return FasterScrollController.Instance; } }
 
         [Init]
         public Plugin(IPALogger logger, Config conf)
@@ -29,20 +28,18 @@ namespace FasterScroll
         }
 
 #region Disableable
-        [OnEnable]
-        public void OnEnable()
+        [OnStart]
+        public void OnApplicationStart()
         {
             BSMLSettings.instance.AddSettingsMenu("FasterScroll", "FasterScroll.Views.Settings.bsml", PluginSettings.instance);
             new GameObject("FasterScrollController").AddComponent<FasterScrollController>();
             ApplyHarmonyPatches();
         }
 
-        [OnDisable]
-        public void OnDisable()
+        [OnExit]
+        public void OnApplicationQuit()
         {
             BSMLSettings.instance.RemoveSettingsMenu(PluginSettings.instance);
-            if (PluginController != null)
-                GameObject.Destroy(PluginController);
             RemoveHarmonyPatches();
         }
 #endregion

@@ -1,11 +1,9 @@
-﻿#define DEBUG_FASTERSCROLL
+﻿//#define DEBUG_FASTERSCROLL
 using UnityEngine;
 using HMUI;
 using IPA.Utilities;
 using VRUIControls;
 using System.Linq;
-using Libraries.HM.HMLib.VR;
-using System;
 using RumbleMod;
 
 #if DEBUG_FASTERSCROLL
@@ -99,7 +97,7 @@ namespace FasterScroll
         public static void ResetInertia()
         {
             m_fInertia = 0.0f; m_fScrollTimer = 0.0f;
-        } // TODO check what happens when coming back from level with inertia
+        }
 
         /******************************
          *      Actual Fun stuff      *
@@ -213,7 +211,7 @@ namespace FasterScroll
         /******************************
          *         Debug stuff        *
          ******************************/
-#region debug
+        #region debug
 #if DEBUG_FASTERSCROLL
         private IEnumerator DebugUpdate()
         {
@@ -244,7 +242,7 @@ namespace FasterScroll
             }
             return path;
         }
-    }
 #endif
 #endregion debug
+    }
 }
