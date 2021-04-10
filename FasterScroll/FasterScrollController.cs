@@ -68,16 +68,19 @@ namespace FasterScroll
          *      Initialization from Harmony Patches      *
          *************************************************/
 
+        // No guarantee of getting stockScrollSpeed, depends of when it's called
         public static void SetStockScrollSpeed(ScrollView sv)
         {
             m_oSongListScrollView = sv;
             m_fStockScrollSpeed = sv.GetField<float, ScrollView>("_joystickScrollSpeed");
         }
 
+        // No guarantee of getting stockRumbleStrength, depends of when it's called
         public static void SetStockRumbleStrength(VRInputModule vrinmod)
         {
-            HapticPresetSO hapticPreset = vrinmod.GetField<HapticPresetSO, VRInputModule>("_rumblePreset");
+            HapticPresetSO hapticPreset = vrinmod.GetField<HapticPresetSO, VRInputModule>("_rumblePreset"); 
             m_fStockRumbleStrength = hapticPreset._strength;
+ Plugin.Log?.Error("STOCK RUMBLE STRENGTH : "+ hapticPreset._strength);
         }
 
         public static void ResetInertia()

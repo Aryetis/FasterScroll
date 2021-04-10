@@ -5,9 +5,9 @@ using UnityEngine;
 using VRUIControls;
 using Libraries.HM.HMLib.VR;
 
-// TODO reapply all harmony patches upon settings modifications ? 
-// Probably shouldn't have to do that if organized properly, let's trace stuff
-// TODO test all that with vanilla songList ... without songBrowser... hopefuly stuff shouldn't be that different
+// only interested in modifying ( and its ScrollSpeed):
+// Wrapper/ScreenSystem/ScreenContainer/MainScreen/LevelSelectionNavigationController/LevelCollectionNavigationController/LevelCollecionViewController/LevelsTableView/TableView
+
 namespace FasterScroll.Patches
 {
     [HarmonyPatch(typeof(ScrollView))]
@@ -16,12 +16,10 @@ namespace FasterScroll.Patches
     {
         static void Prefix(ScrollView __instance)
         {
-            // only interested in modifying :
-            // Wrapper/ScreenSystem/ScreenContainer/MainScreen/LevelSelectionNavigationController/LevelCollectionNavigationController/LevelCollecionViewController/LevelsTableView/TableView
             if (__instance.transform.parent.gameObject.name == "LevelsTableView")
             {
-Plugin.Log?.Error("ScrollViewAwakePatch");
-                FasterScrollController.SetStockScrollSpeed(__instance);
+//Plugin.Log?.Error("ScrollViewAwakePatch");
+                FasterScrollController.SetStockScrollSpeed(__instance); 
             }
             return;
         }
@@ -35,13 +33,14 @@ Plugin.Log?.Error("ScrollViewAwakePatch");
         {
             if (__instance is VRInputModule)
             {
-                Plugin.Log?.Error("VRInputModuleAwakePostFixPatch");
-                // TODO will probably be called only once => will not intercept changes on UI strength from RumbleMod
-                FasterScrollController.SetStockRumbleStrength(__instance as VRInputModule);
+Plugin.Log?.Error("VRInputModuleAwakePostFixPatch");
+                // If no RumbleMod => Getting Stock Rumble Strength => good !
+                // If RumbleMod installed => getting already StrengthUI patched value => good ! 
+                // BUT we still need to update before usage in case the user modified RumbleMod's Strength UI setting
+                FasterScrollController.SetStockRumbleStrength(__instance as VRInputModule); // TODO FIX
             }
         }
     }
-
 
     [HarmonyPatch(typeof(LevelCollectionTableView))]
     [HarmonyPatch("OnEnable")]
@@ -49,7 +48,7 @@ Plugin.Log?.Error("ScrollViewAwakePatch");
     {
         static void Postfix(LevelCollectionTableView __instance)
         {
-Plugin.Log?.Error("TLevelCollectionTableViewOnEnablePostFixPatch");
+//Plugin.Log?.Error("TLevelCollectionTableViewOnEnablePostFixPatch");
             if (FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Constant)
                 FasterScrollController.ScrollViewPatcherConstant(__instance);
             if (FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Stock)
