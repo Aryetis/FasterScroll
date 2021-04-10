@@ -5,6 +5,8 @@ using IPA.Utilities;
 using VRUIControls;
 using System.Linq;
 using Libraries.HM.HMLib.VR;
+using System;
+using RumbleMod;
 
 #if DEBUG_FASTERSCROLL
 using System.Collections;
@@ -30,8 +32,20 @@ namespace FasterScroll
         public static FasterScrollController Instance { get; private set; }
         public static FasterScrollModeEnum FasterScrollMode { get { return PluginConfig.Instance.FasterScrollMode; } private set {} }
         public static float RumbleStrength { get { return m_fRumbleStrength; } private set { } }
-        public static bool IsRumbleDirty;
-        //public static bool NalunaRumbleModeDetected => IPA.Loader.PluginManager.EnabledPlugins.Any(x => x.Id == "RumbleMod");
+        public static bool IsRumbleStrengthValueDirty;
+        public static bool NalunaRumbleModeDetected => IPA.Loader.PluginManager.EnabledPlugins.Any(x => x.Id == "RumbleMod");
+        public static float StockRumbleStrength 
+        {
+            get
+            {
+                if (NalunaRumbleModeDetected)
+                    return PersistentSingleton<SettingsController>.instance.strength_ui;
+                else
+                    return m_fStockRumbleStrength;
+            }
+            set { m_fStockRumbleStrength = value; }
+        }
+
 
         #region public
         /******************************
@@ -48,7 +62,7 @@ namespace FasterScroll
             GameObject.DontDestroyOnLoad(this); // Don't destroy this object on scene changes
             Instance = this;
 
-            IsRumbleDirty = false;
+            IsRumbleStrengthValueDirty = false;
             ResetInertia();
             Plugin.Log?.Debug($"{name}: Awake()");
 #if DEBUG_FASTERSCROLL
@@ -59,7 +73,6 @@ namespace FasterScroll
         private void OnDestroy()
         {
             Plugin.Log?.Debug($"{name}: OnDestroy()");
-            m_oSongListScrollView.SetField("_joystickScrollSpeed", m_fStockScrollSpeed);
             if (Instance == this)
                 Instance = null; // This MonoBehaviour is being destroyed, so set the static instance property to null.
         }
@@ -68,19 +81,19 @@ namespace FasterScroll
          *      Initialization from Harmony Patches      *
          *************************************************/
 
-        // No guarantee of getting stockScrollSpeed, depends of when it's called
+        // No guarantee of getting stockScrollSpeed, depends of when it's called (meant to be called at BS launch-ish)
         public static void SetStockScrollSpeed(ScrollView sv)
         {
-            m_oSongListScrollView = sv;
             m_fStockScrollSpeed = sv.GetField<float, ScrollView>("_joystickScrollSpeed");
         }
 
-        // No guarantee of getting stockRumbleStrength, depends of when it's called
-        public static void SetStockRumbleStrength(VRInputModule vrinmod)
+        // No guarantee of getting stockScrollSpeed, depends of when it's called (meant to be called on MainMenu)
+        public static void SetStockRumbleStrength(float f)
         {
-            HapticPresetSO hapticPreset = vrinmod.GetField<HapticPresetSO, VRInputModule>("_rumblePreset"); 
-            m_fStockRumbleStrength = hapticPreset._strength;
- Plugin.Log?.Error("STOCK RUMBLE STRENGTH : "+ hapticPreset._strength);
+            if (NalunaRumbleModeDetected)
+                m_fStockRumbleStrength = PersistentSingleton<SettingsController>.instance.strength_ui;
+            else
+                m_fStockRumbleStrength = f;
         }
 
         public static void ResetInertia()
@@ -170,14 +183,11 @@ namespace FasterScroll
                 }
                 case RumbleModeEnum.Stock:
                 {
-                    //if (NalunaRumbleModeDetected) // TODO move this if on m_fStockRumbleStrength getter ... or simply rething the whole stockRumble thing
-                    //    m_fRumbleStrength = m_fNalunaRumbleModeUIStrength;
-                    //else
-                        m_fRumbleStrength = m_fStockRumbleStrength;
+                    m_fRumbleStrength = StockRumbleStrength;
                     break;
                 }
             }
-            IsRumbleDirty = true;
+            IsRumbleStrengthValueDirty = true;
         }
 
         public static void PostHandlePointerDidExit()
@@ -185,32 +195,19 @@ namespace FasterScroll
             if (m_oHaptic == null)
                 SetHapticFeedbackController();
 
-            //if (NalunaRumbleModeDetected)
-            //    m_fRumbleStrength = m_fNalunaRumbleModeUIStrength;
-            //else
-                m_fRumbleStrength = m_fStockRumbleStrength;
-            IsRumbleDirty = true;
-
+            m_fRumbleStrength = StockRumbleStrength;
+            IsRumbleStrengthValueDirty = true;
         }
 
 #region private
-
-        private static ScrollView m_oSongListScrollView;
-
         private static float m_fInertia;
         private static float m_fCustomSpeed; // stock value : 60.0f
         private static float m_fScrollTimer;
         private static float m_fStockScrollSpeed;
 
         private static HapticFeedbackController m_oHaptic;
-        private static float m_fStockRumbleStrength; // stock value : 1.0f
+        private static float m_fStockRumbleStrength; // stock value : 1.0f (will be set ONCE at launch)
         private static float m_fRumbleStrength;
-
-        //private static float m_fNalunaRumbleModeUIStrength
-        //{
-        //    get { return 0.0f; }  // TODO access from variable from .conf
-        //    set { } 
-        //}
         #endregion private
 
         /******************************
@@ -232,7 +229,7 @@ namespace FasterScroll
                                   $" Scroll Speed : {m_fCustomSpeed} \n" +
                                   $" Stock Scroll Speed : {m_fStockScrollSpeed} \n" +
                                   $" Actual Rumble Strength : {m_fRumbleStrength} \n" +
-                                  $" Stock Rumble Strength : {m_fStockRumbleStrength} \n");
+                                  $" Stock Rumble Strength : {StockRumbleStrength} \n");
                 yield return new WaitForSeconds(1.0f);
             }
         }

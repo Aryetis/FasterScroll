@@ -4,12 +4,16 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using VRUIControls;
 using Libraries.HM.HMLib.VR;
+using System.Linq;
+using System;
+using System.Reflection;
 
 // only interested in modifying ( and its ScrollSpeed):
 // Wrapper/ScreenSystem/ScreenContainer/MainScreen/LevelSelectionNavigationController/LevelCollectionNavigationController/LevelCollecionViewController/LevelsTableView/TableView
 
 namespace FasterScroll.Patches
 {
+    // At Launch-ish
     [HarmonyPatch(typeof(ScrollView))]
     [HarmonyPatch("Awake")]
     class ScrollViewAwakePatch
@@ -25,23 +29,7 @@ namespace FasterScroll.Patches
         }
     }
 
-    [HarmonyPatch(typeof(BaseInputModule))]
-    [HarmonyPatch("OnEnable")]
-    class VRInputModuleAwakePostFixPatch
-    {
-        static void Postfix(BaseInputModule __instance)
-        {
-            if (__instance is VRInputModule)
-            {
-Plugin.Log?.Error("VRInputModuleAwakePostFixPatch");
-                // If no RumbleMod => Getting Stock Rumble Strength => good !
-                // If RumbleMod installed => getting already StrengthUI patched value => good ! 
-                // BUT we still need to update before usage in case the user modified RumbleMod's Strength UI setting
-                FasterScrollController.SetStockRumbleStrength(__instance as VRInputModule); // TODO FIX
-            }
-        }
-    }
-
+    // When Enabling SongListView
     [HarmonyPatch(typeof(LevelCollectionTableView))]
     [HarmonyPatch("OnEnable")]
     class TLevelCollectionTableViewOnEnablePostFixPatch
@@ -60,6 +48,7 @@ Plugin.Log?.Error("VRInputModuleAwakePostFixPatch");
      *       Set ScrollSpeed      *
      ******************************/
 
+    // when pushing joystick on SongList
     [HarmonyPatch(typeof(ScrollView))]
     [HarmonyPatch("HandleJoystickWasNotCenteredThisFrame")]
     class ScrollViewHandleJoystickWasNotCenteredThisFramePostfixPatch
@@ -76,6 +65,7 @@ Plugin.Log?.Error("VRInputModuleAwakePostFixPatch");
         }
     }
 
+    // when releasing / not pushing joystick on SongList
     [HarmonyPatch(typeof(ScrollView))]
     [HarmonyPatch("HandleJoystickWasCenteredThisFrame")]
     class ScrollViewHandleJoystickWasCenteredThisFramePostfixPatch
@@ -95,25 +85,33 @@ Plugin.Log?.Error("VRInputModuleAwakePostFixPatch");
     /******************************
      *         Set Rumble         *
      ******************************/
+    // When pointer enters Songlist's ScrollView
     [HarmonyPatch(typeof(ScrollView))]
     [HarmonyPatch("HandlePointerDidEnter")]
     class ScrollViewHandlePointerDidEnterPostFixPatch
     {
         static void Prefix(ScrollView __instance, PointerEventData eventData)
         {
+            if (__instance.transform.parent.gameObject.name == "LevelsTableView")
+            { 
 //Plugin.Log?.Error("ScrollViewHandlePointerDidEnterPostFixPatch");
-            FasterScrollController.PostHandlePointerDidEnter();
+                FasterScrollController.PostHandlePointerDidEnter();
+            }
         }
     }
 
+    // When pointer exits Songlist's ScrollView
     [HarmonyPatch(typeof(ScrollView))]
     [HarmonyPatch("HandlePointerDidExit")]
     class ScrollViewHandlePointerDidExitPostFixPatch
     {
         static void Prefix(ScrollView __instance, PointerEventData eventData)
         {
+            if (__instance.transform.parent.gameObject.name == "LevelsTableView")
+            { 
 //Plugin.Log?.Error("ScrollViewHandlePointerDidExitPostFixPatch");
-            FasterScrollController.PostHandlePointerDidExit();
+                FasterScrollController.PostHandlePointerDidExit();
+            }
         }
     }
 
@@ -123,11 +121,11 @@ Plugin.Log?.Error("VRInputModuleAwakePostFixPatch");
     {
         static void Prefix(HapticPresetSO ____rumblePreset)
         {
-            if (FasterScrollController.IsRumbleDirty)
+            if (FasterScrollController.IsRumbleStrengthValueDirty)
             {
 //Plugin.Log?.Error("VRInputModuleHandlePointerExitAndEnterPreFixPatch");
                 ____rumblePreset._strength = FasterScrollController.RumbleStrength;
-                FasterScrollController.IsRumbleDirty = false;
+                FasterScrollController.IsRumbleStrengthValueDirty = false;
             }
         }
     }

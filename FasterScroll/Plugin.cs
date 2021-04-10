@@ -9,7 +9,7 @@ using IPA.Config.Stores;
 
 namespace FasterScroll
 {
-    [Plugin(RuntimeOptions.DynamicInit)]
+    [Plugin(RuntimeOptions.DynamicInit)] // TODO turn into nondynamic ... otherwise it will be a pain in the butt to reset potential tweaked scrollvalue 
     public class Plugin
     {
         public const string HarmonyId = "com.github.Aryetis.FasterScroll";
