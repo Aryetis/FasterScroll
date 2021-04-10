@@ -4,7 +4,6 @@ using IPA.Config.Stores;
 [assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
 namespace FasterScroll
 {
-
     class PluginConfig
     {
         public static PluginConfig Instance { get; set; }

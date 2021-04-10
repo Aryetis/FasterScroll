@@ -1,10 +1,9 @@
-﻿#define DEBUG_FASTERSCROLL
+﻿//#define DEBUG_FASTERSCROLL
 using UnityEngine;
 using HMUI;
 using IPA.Utilities;
 using VRUIControls;
 using System.Linq;
-using System.Collections;
 using Libraries.HM.HMLib.VR;
 
 namespace FasterScroll
@@ -27,6 +26,8 @@ namespace FasterScroll
         public static FasterScrollController Instance { get; private set; }
         public static FasterScrollModeEnum FasterScrollMode { get { return PluginConfig.Instance.FasterScrollMode; } private set {} }
         public static float RumbleStrength { get { return m_fRumbleStrength; } private set { } }
+        public static bool IsRumbleDirty;
+        //public static bool NalunaRumbleModeDetected => IPA.Loader.PluginManager.EnabledPlugins.Any(x => x.Id == "RumbleMod");
 
         #region public
         /******************************
@@ -43,7 +44,7 @@ namespace FasterScroll
             GameObject.DontDestroyOnLoad(this); // Don't destroy this object on scene changes
             Instance = this;
 
-            ResetInertia();
+            InitMembers();
             Plugin.Log?.Debug($"{name}: Awake()");
 #if DEBUG_FASTERSCROLL
             StartCoroutine(DebugUpdate());
@@ -74,10 +75,31 @@ namespace FasterScroll
         private void OnDestroy()
         {
             Plugin.Log?.Debug($"{name}: OnDestroy()");
-            songListScrollView.SetField("_joystickScrollSpeed", m_fStockScrollSpeed);
+            m_oSongListScrollView.SetField("_joystickScrollSpeed", m_fStockScrollSpeed);
             if (Instance == this)
                 Instance = null; // This MonoBehaviour is being destroyed, so set the static instance property to null.
         }
+
+        /*************************************************
+         *      Initialization from Harmony Patches      *
+         *************************************************/
+
+        public static void SetStockScrollSpeed(ScrollView sv)
+        {
+            m_oSongListScrollView = sv;
+            m_fStockScrollSpeed = sv.GetField<float, ScrollView>("_joystickScrollSpeed");
+        }
+
+        public static void SetStockRumbleStrength(VRInputModule vrinmod)
+        {
+            HapticPresetSO hapticPreset = vrinmod.GetField<HapticPresetSO, VRInputModule>("_rumblePreset");
+            m_fStockRumbleStrength = hapticPreset._strength;
+        }
+
+        public static void InitMembers()
+        {
+            m_fInertia = 0.0f; m_fScrollTimer = 0.0f; IsRumbleDirty = true;
+        } // TODO check what happens when coming back from level with inertia
 
         /******************************
          *      Actual Fun stuff      *
@@ -87,22 +109,7 @@ namespace FasterScroll
         public static void ScrollViewPatcherConstant(ScrollView sv)
         {
             if (sv.transform.parent.gameObject.name == "LevelsTableView")
-            {
                 sv.SetField("_joystickScrollSpeed", PluginConfig.Instance.MaxSpeed);
-                Plugin.Log?.Debug($"PATCHED CONSTANT _joystickScrollSpeed value : { sv.GetField<float, ScrollView>("_joystickScrollSpeed") }");
-            }
-        }
-
-        public static void InitialSetup(ScrollView sv)
-        {
-            songListScrollView = sv;
-            m_fStockScrollSpeed = sv.GetField<float, ScrollView>("_joystickScrollSpeed");
-        }
-
-        public static void SetStockRumbleStrength(VRInputModule vrinmod)
-        {
-            HapticPresetSO hapticPreset = vrinmod.GetField<HapticPresetSO, VRInputModule>("_rumblePreset");
-            m_fStockRumbleStrength = hapticPreset._strength;
         }
 
         // Prefix : ScrollView::HandleJoystickWasNotCenteredThisFrame(Vector2 deltaPos)
@@ -131,10 +138,7 @@ namespace FasterScroll
 
             m_fCustomSpeed = Mathf.Clamp(m_fInertia * m_fStockScrollSpeed, 0.0f, PluginConfig.Instance.MaxSpeed);
             sv.SetField("_joystickScrollSpeed", m_fCustomSpeed);
-            //Plugin.Log?.Debug($"NEW VALUE : { sv.GetField<float, ScrollView>("_joystickScrollSpeed") }");
         }
-
-        public static void ResetInertia() { m_fInertia = 0.0f; m_fScrollTimer = 0.0f; } // TODO check what happens when coming back from level with inertia
         #endregion public
 
         /******************************
@@ -168,11 +172,14 @@ namespace FasterScroll
                 }
                 case RumbleModeEnum.Stock:
                 {
-                    // TODO detect if nalulululuna's RumbleMod is installed, if so don't use m_fStockRumbleStrength
-                    m_fRumbleStrength = m_fStockRumbleStrength; 
+                    //if (NalunaRumbleModeDetected) // TODO move this if on m_fStockRumbleStrength getter ... or simply rething the whole stockRumble thing
+                    //    m_fRumbleStrength = m_fNalunaRumbleModeUIStrength;
+                    //else
+                        m_fRumbleStrength = m_fStockRumbleStrength;
                     break;
                 }
             }
+            IsRumbleDirty = true;
         }
 
         public static void PostHandlePointerDidExit()
@@ -180,12 +187,17 @@ namespace FasterScroll
             if (m_oHaptic == null)
                 SetHapticFeedbackController();
 
-            m_fRumbleStrength = m_fStockRumbleStrength;
+            //if (NalunaRumbleModeDetected)
+            //    m_fRumbleStrength = m_fNalunaRumbleModeUIStrength;
+            //else
+                m_fRumbleStrength = m_fStockRumbleStrength;
+            IsRumbleDirty = true;
+
         }
 
 #region private
 
-        private static ScrollView songListScrollView;
+        private static ScrollView m_oSongListScrollView;
 
         private static float m_fInertia;
         private static float m_fCustomSpeed; // stock value : 60.0f
@@ -195,6 +207,12 @@ namespace FasterScroll
         private static HapticFeedbackController m_oHaptic;
         private static float m_fStockRumbleStrength; // stock value : 1.0f
         private static float m_fRumbleStrength;
+
+        //private static float m_fNalunaRumbleModeUIStrength
+        //{
+        //    get { return 0.0f; }  // TODO access from variable from .conf
+        //    set { } 
+        //}
         #endregion private
     }
 }
