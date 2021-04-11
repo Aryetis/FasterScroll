@@ -46,9 +46,9 @@ How do they work ?
 
 ## Where do I download it ? How do I install it ?
 
-2 solutions :
+**2 SOLUTIONS **
 
-Manual installation 
+1/ Manual installation :
 
 - Check the Release page https://github.com/Aryetis/FasterScroll/releases and donwload the latest release
 
@@ -58,7 +58,7 @@ Manual installation
 
 **Or** 
 
-Wait for it to show up in ModAssistant and downnload it there
+2/ Wait for it to show up in ModAssistant and downnload it there
 
 ----------
 
