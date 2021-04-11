@@ -46,7 +46,7 @@ How do they work ?
 
 ## Where do I download it ? How do I install it ?
 
-**2 SOLUTIONS**
+**2 SOLUTIONS :**
 
 1/ Manual installation :
 
