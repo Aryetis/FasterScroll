@@ -52,7 +52,7 @@ How do they work ?
 
 - Check the <a href="https://github.com/Aryetis/FasterScroll/releases">Release page</a> and donwload the latest FasterScroll-\*.\*.\*-gibberish.zip
 
-- Use ModAssistant to install the bare minimal mods / requirements : BSIPA, BeatSaberMarkupLanguage
+- Use <a href="https://github.com/Assistant/ModAssistant">ModAssistant</a> to install the bare minimal mods / requirements : BSIPA, BeatSaberMarkupLanguage
 
 - Copy the FasterScroll.dll from the release's page .zip in the following folder [SteamFolder]\steamapps\common\Beat Saber\Plugins
 
