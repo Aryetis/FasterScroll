@@ -50,7 +50,7 @@ How do they work ?
 
 1/ Manual installation :
 
-- Check the <a href="https://github.com/Aryetis/FasterScroll/releases">Release page</a> and donwload the latest release
+- Check the <a href="https://github.com/Aryetis/FasterScroll/releases">Release page</a> and donwload the latest FasterScroll-*.*.*-gibberish.zip
 
 - Use ModAssistant to install the bare minimal mods / requirements : BSIPA, BeatSaberMarkupLanguage
 
