@@ -139,7 +139,7 @@ namespace FasterScroll
             m_fScrollTimer += Time.deltaTime;
             switch(PluginConfig.Instance.FasterScrollMode)
             {
-                case FasterScrollModeEnum.Constant:
+                case FasterScrollModeEnum.Linear:
                 {
                     m_fInertia = PluginConfig.Instance.Accel* m_fScrollTimer;
                     break;
@@ -150,7 +150,7 @@ namespace FasterScroll
                     break;
                 }
                 case FasterScrollModeEnum.Stock:
-                case FasterScrollModeEnum.Linear:
+                case FasterScrollModeEnum.Constant:
                 {
                     return;
                 }
