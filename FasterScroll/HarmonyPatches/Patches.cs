@@ -54,7 +54,6 @@ namespace FasterScroll.Patches
     /******************************
      *       Set ScrollSpeed      *
      ******************************/
-
     // when pushing joystick on SongList
     [HarmonyPatch(typeof(ScrollView))]
     [HarmonyPatch("HandleJoystickWasNotCenteredThisFrame")]
@@ -110,19 +109,18 @@ namespace FasterScroll.Patches
         }
     }
 
-
-    // TODO FIX PROBABLY GET CALLED BEFORE RUMBLE MOD ....
     [HarmonyPatch(typeof(VRInputModule))]
     [HarmonyPatch("HandlePointerExitAndEnter")]
     class VRInputModuleHandlePointerExitAndEnterPreFixPatch
     {
+        [HarmonyAfter(new string[] { "com.github.nalulululuna.RumbleMod" })]
         static void Prefix(HapticPresetSO ____rumblePreset)
         {
+            // TODO try to reimplement dirty system later on so we don't spam this ?
             //if (FasterScrollController.IsRumbleStrengthValueDirty)
             //{
-//Plugin.Log?.Error($"APPLYING RUMBLE STRENGTH : " + FasterScrollController.RumbleStrength);
-            ____rumblePreset._strength = FasterScrollController.RumbleStrength; // TODO FIX value zero at startup
-                FasterScrollController.IsRumbleStrengthValueDirty = false;
+            ____rumblePreset._strength = FasterScrollController.RumbleStrength;
+            FasterScrollController.IsRumbleStrengthValueDirty = false;
             //}
         }
     }

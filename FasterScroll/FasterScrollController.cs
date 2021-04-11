@@ -5,13 +5,12 @@ using IPA.Utilities;
 using VRUIControls;
 using System.Linq;
 using Libraries.HM.HMLib.VR;
-//using RumbleMod; // TODO will create dependecies at runtime, let's try partial class should work :tm:
+//using RumbleMod; // will create dependecies at runtime, let's try partial class should work :tm:
 
 #if DEBUG_FASTERSCROLL
 using System.Collections;
 #endif
 
-// TODO also if using settings like "none" rumble will be set at 0 until ScrollView OnEnable() or something alike
 partial class SettingsController : PersistentSingleton<SettingsController>
 {
     public float strength_ui;
@@ -76,9 +75,7 @@ namespace FasterScroll
             IsRumbleStrengthValueDirty = false;
             ResetInertia();
             Plugin.Log?.Debug($"{name}: Awake()");
-m_fVanillaStockRumbleStrength = null;
-//m_fRumbleStrength = StockRumbleStrength; // = 0.0f => useless
-//Plugin.Log?.Error($"m_fRumbleStrength Awake Setup : " + FasterScrollController.RumbleStrength);
+            m_fVanillaStockRumbleStrength = null;
 #if DEBUG_FASTERSCROLL
             StartCoroutine(DebugUpdate());
 #endif
@@ -112,7 +109,6 @@ Plugin.Log?.Error("no RumbleMod Detected");
             }
 
             m_fRumbleStrength = StockRumbleStrength;
-Plugin.Log?.Error("STOCK RUMBLE STRENGTH : " + m_fVanillaStockRumbleStrength);
         }
 
         public static void ResetInertia()
@@ -193,18 +189,15 @@ Plugin.Log?.Error("STOCK RUMBLE STRENGTH : " + m_fVanillaStockRumbleStrength);
                 case RumbleModeEnum.Override:
                 {
                     m_fRumbleStrength = PluginConfig.Instance.CustomRumbleStrength;
-//Plugin.Log?.Error($"ENTER APPLYING RUMBLE STRENGTH CUSTOM RUMBLE : " + FasterScrollController.RumbleStrength);
                     break;
                 }
                 case RumbleModeEnum.None:
                 {
-//Plugin.Log?.Error($"ENTER APPLYING RUMBLE STRENGTH NONE : " + FasterScrollController.RumbleStrength);
                     m_fRumbleStrength = 0.0f;
                     break;
                 }
                 case RumbleModeEnum.Stock:
                 {
-//Plugin.Log?.Error($"ENTER APPLYING RUMBLE STRENGTH STOCK : " + FasterScrollController.RumbleStrength);
                     m_fRumbleStrength = StockRumbleStrength;
                     break;
                 }
@@ -214,7 +207,6 @@ Plugin.Log?.Error("STOCK RUMBLE STRENGTH : " + m_fVanillaStockRumbleStrength);
 
         public static void PostHandlePointerDidExit()
         {
-//Plugin.Log?.Error($"EXIT APPLYING RUMBLE STRENGTH STOCK : " + FasterScrollController.RumbleStrength);
             if (m_oHaptic == null)
                 SetHapticFeedbackController();
 

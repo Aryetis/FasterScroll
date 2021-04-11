@@ -15,7 +15,7 @@ namespace FasterScroll
         public virtual float CustomRumbleStrength { get; set; } = DefaultCustomRumbleStrength;
 
         /////////////////////////////////////////////
-        // Because C# is stupid and doesn't allow global variables <3 nor have proper macros
+        // Because C# is stupid and doesn't allow global variables nor have proper macros, let's dump those here <3
         public const FasterScrollController.FasterScrollModeEnum DefaultFasterScrollMode
                                         = FasterScrollController.FasterScrollModeEnum.Exp;
         public const float DefaultAccel = 1.0f;
