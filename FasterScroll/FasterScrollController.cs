@@ -28,6 +28,7 @@ namespace FasterScroll
             None,
             Stock
         }
+
         public static FasterScrollController Instance { get; private set; }
         public static FasterScrollModeEnum FasterScrollMode { get { return PluginConfig.Instance.FasterScrollMode; } private set {} }
         public static float RumbleStrength { get { return m_fRumbleStrength; } private set { } }
@@ -37,7 +38,7 @@ namespace FasterScroll
             get
             {
                 if (NalunaRumbleModeDetected)
-                    return GetDamnNalunaRumbleModStrengthUI();
+                    return GetNalunaRumbleModStrengthUI();
                 else if (m_fVanillaStockRumbleStrength.HasValue)
                     return m_fVanillaStockRumbleStrength.Value;
                 else
@@ -49,12 +50,11 @@ namespace FasterScroll
             set { }
         }
 
-        public static float GetDamnNalunaRumbleModStrengthUI()
+        public static float GetNalunaRumbleModStrengthUI()
         {
             return PersistentSingleton<SettingsController>.instance.strength_ui;
         }
 
-        #region public
         /******************************
          *      Basic Unity Stuff     *
          ******************************/
@@ -87,7 +87,6 @@ namespace FasterScroll
         /*************************************************
          *      Initialization from Harmony Patches      *
          *************************************************/
-
         // No guarantee of getting stockScrollSpeed, depends of when it's called (meant to be called at BS launch-ish)
         public static void SetStockScrollSpeed(ScrollView sv)
         {
@@ -115,7 +114,6 @@ namespace FasterScroll
         /******************************
          *      Actual Fun stuff      *
          ******************************/
-
         public static void ScrollViewPatcherConstant(LevelCollectionTableView lctv)
         {
             TableView tv = lctv.GetField<TableView, LevelCollectionTableView>("_tableView");
@@ -161,20 +159,10 @@ namespace FasterScroll
             m_fCustomSpeed = Mathf.Clamp(m_fInertia * m_fStockScrollSpeed, 0.0f, PluginConfig.Instance.MaxSpeed);
             sv.SetField("_joystickScrollSpeed", m_fCustomSpeed);
         }
-        #endregion public
 
         /******************************
          *        Rumble stuff        *
          ******************************/
-        private static void SetHapticFeedbackController()
-        {
-            VRInputModule vrInputModule = Resources.FindObjectsOfTypeAll<VRInputModule>().FirstOrDefault();
-            if (vrInputModule != null)
-                m_oHaptic = vrInputModule.GetField<HapticFeedbackController, VRInputModule>("_hapticFeedbackController");
-            else
-                Plugin.Log?.Error($"Couldn't find HapticFeedbackController");
-        }
-
         public static void PostHandlePointerDidEnter()
         {
             if (m_oHaptic == null)
@@ -208,7 +196,16 @@ namespace FasterScroll
             m_fRumbleStrength = StockRumbleStrength;
         }
 
-#region private
+        private static void SetHapticFeedbackController()
+        {
+            VRInputModule vrInputModule = Resources.FindObjectsOfTypeAll<VRInputModule>().FirstOrDefault();
+            if (vrInputModule != null)
+                m_oHaptic = vrInputModule.GetField<HapticFeedbackController, VRInputModule>("_hapticFeedbackController");
+            else
+                Plugin.Log?.Error($"Couldn't find HapticFeedbackController");
+        }
+
+
         private static float m_fInertia;
         private static float m_fCustomSpeed; // stock value : 60.0f
         private static float m_fScrollTimer;
@@ -217,7 +214,6 @@ namespace FasterScroll
         private static HapticFeedbackController m_oHaptic;
         private static float? m_fVanillaStockRumbleStrength; // stock value : 1.0f (will be set ONCE at launch)
         private static float m_fRumbleStrength;
-        #endregion private
 
         /******************************
          *         Debug stuff        *
