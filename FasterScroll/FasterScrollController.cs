@@ -13,7 +13,7 @@ using System.Collections;
 
 partial class SettingsController : PersistentSingleton<SettingsController>
 {
-    public float strength_ui;
+    public float strength_ui = 0.39f; // TODO we're probably not getting the proper SettingsController ...
 }
 
 namespace FasterScroll
@@ -36,7 +36,7 @@ namespace FasterScroll
         public static FasterScrollController Instance { get; private set; }
         public static FasterScrollModeEnum FasterScrollMode { get { return PluginConfig.Instance.FasterScrollMode; } private set {} }
         public static float RumbleStrength { get { return m_fRumbleStrength; } private set { } }
-        public static bool IsRumbleStrengthValueDirty;
+        //public static bool IsRumbleStrengthValueDirty;
         public static bool NalunaRumbleModeDetected => IPA.Loader.PluginManager.EnabledPlugins.Any(x => x.Id == "RumbleMod");
         public static float NalunaRumbleModeStrengthUI => PersistentSingleton<SettingsController>.instance.strength_ui;
         public static float StockRumbleStrength 
@@ -72,7 +72,7 @@ namespace FasterScroll
             GameObject.DontDestroyOnLoad(this); // Don't destroy this object on scene changes
             Instance = this;
 
-            IsRumbleStrengthValueDirty = false;
+            //IsRumbleStrengthValueDirty = false;
             ResetInertia();
             Plugin.Log?.Debug($"{name}: Awake()");
             m_fVanillaStockRumbleStrength = null;
@@ -105,7 +105,6 @@ namespace FasterScroll
             {
                 HapticPresetSO hapticPreset = vrinmod.GetField<HapticPresetSO, VRInputModule>("_rumblePreset");
                 m_fVanillaStockRumbleStrength = hapticPreset._strength;
-Plugin.Log?.Error("no RumbleMod Detected");
             }
 
             m_fRumbleStrength = StockRumbleStrength;
@@ -202,7 +201,7 @@ Plugin.Log?.Error("no RumbleMod Detected");
                     break;
                 }
             }
-            IsRumbleStrengthValueDirty = true;
+            //IsRumbleStrengthValueDirty = true;
         }
 
         public static void PostHandlePointerDidExit()
@@ -211,7 +210,7 @@ Plugin.Log?.Error("no RumbleMod Detected");
                 SetHapticFeedbackController();
 
             m_fRumbleStrength = StockRumbleStrength;
-            IsRumbleStrengthValueDirty = true;
+            //IsRumbleStrengthValueDirty = true;
         }
 
 #region private

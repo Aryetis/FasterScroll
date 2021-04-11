@@ -5,7 +5,7 @@ using UnityEngine;
 using VRUIControls;
 using Libraries.HM.HMLib.VR;
 
-// only interested in modifying ( and its ScrollSpeed):
+// SongList Container address :
 // Wrapper/ScreenSystem/ScreenContainer/MainScreen/LevelSelectionNavigationController/LevelCollectionNavigationController/LevelCollecionViewController/LevelsTableView/TableView
 
 namespace FasterScroll.Patches
@@ -116,11 +116,12 @@ namespace FasterScroll.Patches
         [HarmonyAfter(new string[] { "com.github.nalulululuna.RumbleMod" })]
         static void Prefix(HapticPresetSO ____rumblePreset)
         {
-            // TODO try to reimplement dirty system later on so we don't spam this ?
             //if (FasterScrollController.IsRumbleStrengthValueDirty)
             //{
             ____rumblePreset._strength = FasterScrollController.RumbleStrength;
-            FasterScrollController.IsRumbleStrengthValueDirty = false;
+            //FasterScrollController.IsRumbleStrengthValueDirty = false;
+
+Plugin.Log?.Debug($"____rumblePreset._strength : " + ____rumblePreset._strength);
             //}
         }
     }
