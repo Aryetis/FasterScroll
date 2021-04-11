@@ -2,7 +2,7 @@
 
 ## Description :
 
-Increases SongList scrolling speed to your own taste, change its acceleration curve, its max speed
+Increase SongList scrolling's speed to your own taste, change its acceleration curve, its max speed
 Tweak SongList scrolling rumbles too (your wrists will thank you for this).
 If a picture is worth a thousand words... How much is it for a gif ? Here's a quick demo of this mod <a href="https://www.youtube.com/watch?v=NgsHk499Rog">(Full demo YT link)</a> : 
 <p align="center" href="https://www.youtube.com/watch?v=NgsHk499Rog">
