@@ -14,11 +14,8 @@ If a picture is worth a thousand words... How much is it for a gif ? Here's a qu
 ## Why ? 
 
 Because if you're like me, you probably have over 9000 problems also known as maps. Therefore you know how much of a drag it can be to look for a song you don't know the exact title, look for a song that you added a couple weeks ago, scroll along your seemingly infinite "favorite" playlist etc 
-"But why don't you use the scroll bar handle ?" : Because it's gone! It's too small to grab! I don't waste my time fixing non existing problem.
 
-<p align="center">
-  <img src="https://github.com/Aryetis/FasterScroll/blob/master/FasterScroll/Resources/9000Problems.jpg">
-</p>
+"But why don't you use the scroll bar handle ?" : Because it's gone! It's too small to grab! I don't waste my time fixing non existing problem.
 
 ----------
 
