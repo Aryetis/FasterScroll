@@ -35,10 +35,7 @@ How do they work ?
 
 **[Scroll Max Speed]** Maximum SongList scrolling's speed, sky is the limit... Or more likely 3000 is the limit. It's already blinding fast.
 
-**[SongList Rumble Mode]** blabla :
-- Constant : Scrolling's speed will reach [Scroll Max Speed] as soon as you push the joystick
-
-**[Scrolling Mode]** Override the rumble settings of your controller while browsing/scrolling Songlist (should be compatible with nalulululuna's RumbleMod) :
+**[Scrolling Rumble Mode]** Override the rumble settings of your controller while browsing/scrolling Songlist (should be compatible with nalulululuna's RumbleMod) :
 - Override : Will replace the rumble's strength with [Override Rumble Strength] for the SongList UI section
 - None : Will entirely disable the rumble 
 - Stock : Default unmoded behavior (rip for your batteries)
