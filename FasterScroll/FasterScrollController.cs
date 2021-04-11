@@ -42,7 +42,7 @@ namespace FasterScroll
                     return m_fVanillaStockRumbleStrength.Value;
                 else
                 {
-                    Plugin.Log?.Error("StockRumbleStrength hasn't been initialized properly");
+                    Plugin.Log?.Warn("StockRumbleStrength hasn't been initialized properly");
                     return 1.0f;
                 }
             }
@@ -106,6 +106,7 @@ namespace FasterScroll
             m_fRumbleStrength = StockRumbleStrength;
         }
 
+        // Called when letting go of the joystick && at this.Awake()
         public static void ResetInertia()
         {
             m_fInertia = 0.0f; m_fScrollTimer = 0.0f;

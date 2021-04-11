@@ -29,7 +29,7 @@ namespace FasterScroll.Patches
     {
         static void Postfix(BaseInputModule __instance)
         {
-            // triggered at every menu transition
+            // triggered at every """menu transition"""
             if (__instance is VRInputModule)
                 // Will initialize m_fVanillaStockRumbleStrength once at startup
                 // && will refresh m_fRumbleStrength at every "menu transition" => will catch actualized RumbleMod's strengthUI 
@@ -115,11 +115,11 @@ namespace FasterScroll.Patches
     {
         // Note : yes it's gonna spam the execution a lot during menus ... But RumbleMod does it this way.
         // Can't thing of anything proper (and easy) right now that would not break RumbleMod support
+        // I could probably patch RumbleMod's harmony patch ... Please no ...
         [HarmonyAfter(new string[] { "com.github.nalulululuna.RumbleMod" })]
         static void Prefix(HapticPresetSO ____rumblePreset)
         {
             ____rumblePreset._strength = FasterScrollController.RumbleStrength;
-Plugin.Log?.Debug($"____rumblePreset._strength : " + ____rumblePreset._strength);
         }
     }
 }
