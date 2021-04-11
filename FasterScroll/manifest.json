@@ -3,7 +3,7 @@
   "id": "FasterScroll",
   "name": "FasterScroll",
   "author": "Aryetis",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Increases SongList scrolling speed",
   "gameVersion": "1.14.0",
   "dependsOn": {
