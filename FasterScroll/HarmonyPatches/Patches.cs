@@ -113,16 +113,13 @@ namespace FasterScroll.Patches
     [HarmonyPatch("HandlePointerExitAndEnter")]
     class VRInputModuleHandlePointerExitAndEnterPreFixPatch
     {
+        // Note : yes it's gonna spam the execution a lot during menus ... But RumbleMod does it this way.
+        // Can't thing of anything proper (and easy) right now that would not break RumbleMod support
         [HarmonyAfter(new string[] { "com.github.nalulululuna.RumbleMod" })]
         static void Prefix(HapticPresetSO ____rumblePreset)
         {
-            //if (FasterScrollController.IsRumbleStrengthValueDirty)
-            //{
             ____rumblePreset._strength = FasterScrollController.RumbleStrength;
-            //FasterScrollController.IsRumbleStrengthValueDirty = false;
-
 Plugin.Log?.Debug($"____rumblePreset._strength : " + ____rumblePreset._strength);
-            //}
         }
     }
 }

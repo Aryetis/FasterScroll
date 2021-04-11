@@ -5,16 +5,11 @@ using IPA.Utilities;
 using VRUIControls;
 using System.Linq;
 using Libraries.HM.HMLib.VR;
-//using RumbleMod; // will create dependecies at runtime, let's try partial class should work :tm:
+using RumbleMod;
 
 #if DEBUG_FASTERSCROLL
 using System.Collections;
 #endif
-
-partial class SettingsController : PersistentSingleton<SettingsController>
-{
-    public float strength_ui = 0.39f; // TODO we're probably not getting the proper SettingsController ...
-}
 
 namespace FasterScroll
 {
@@ -36,15 +31,13 @@ namespace FasterScroll
         public static FasterScrollController Instance { get; private set; }
         public static FasterScrollModeEnum FasterScrollMode { get { return PluginConfig.Instance.FasterScrollMode; } private set {} }
         public static float RumbleStrength { get { return m_fRumbleStrength; } private set { } }
-        //public static bool IsRumbleStrengthValueDirty;
         public static bool NalunaRumbleModeDetected => IPA.Loader.PluginManager.EnabledPlugins.Any(x => x.Id == "RumbleMod");
-        public static float NalunaRumbleModeStrengthUI => PersistentSingleton<SettingsController>.instance.strength_ui;
         public static float StockRumbleStrength 
         {
             get
             {
                 if (NalunaRumbleModeDetected)
-                    return PersistentSingleton<SettingsController>.instance.strength_ui;
+                    return GetDamnNalunaRumbleModStrengthUI();
                 else if (m_fVanillaStockRumbleStrength.HasValue)
                     return m_fVanillaStockRumbleStrength.Value;
                 else
@@ -56,6 +49,10 @@ namespace FasterScroll
             set { }
         }
 
+        public static float GetDamnNalunaRumbleModStrengthUI()
+        {
+            return PersistentSingleton<SettingsController>.instance.strength_ui;
+        }
 
         #region public
         /******************************
@@ -72,10 +69,9 @@ namespace FasterScroll
             GameObject.DontDestroyOnLoad(this); // Don't destroy this object on scene changes
             Instance = this;
 
-            //IsRumbleStrengthValueDirty = false;
             ResetInertia();
-            Plugin.Log?.Debug($"{name}: Awake()");
             m_fVanillaStockRumbleStrength = null;
+            Plugin.Log?.Debug($"{name}: Awake()");
 #if DEBUG_FASTERSCROLL
             StartCoroutine(DebugUpdate());
 #endif
@@ -201,7 +197,6 @@ namespace FasterScroll
                     break;
                 }
             }
-            //IsRumbleStrengthValueDirty = true;
         }
 
         public static void PostHandlePointerDidExit()
@@ -210,7 +205,6 @@ namespace FasterScroll
                 SetHapticFeedbackController();
 
             m_fRumbleStrength = StockRumbleStrength;
-            //IsRumbleStrengthValueDirty = true;
         }
 
 #region private
