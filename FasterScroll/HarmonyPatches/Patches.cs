@@ -23,6 +23,20 @@ namespace FasterScroll.Patches
         }
     }
 
+    [HarmonyPatch(typeof(BaseInputModule))]
+    [HarmonyPatch("OnEnable")]
+    class VRInputModuleAwakePostFixPatch
+    {
+        static void Postfix(BaseInputModule __instance)
+        {
+            // triggered at every menu transition
+            if (__instance is VRInputModule)
+                // Will initialize m_fVanillaStockRumbleStrength once at startup
+                // && will refresh m_fRumbleStrength at every "menu transition" => will catch actualized RumbleMod's strengthUI 
+                FasterScrollController.InitializeRumbleStrengthStuff(__instance as VRInputModule); // only effective once at startup
+        }
+    }
+
     // When Enabling SongListView
     [HarmonyPatch(typeof(LevelCollectionTableView))]
     [HarmonyPatch("OnEnable")]
@@ -96,17 +110,20 @@ namespace FasterScroll.Patches
         }
     }
 
+
+    // TODO FIX PROBABLY GET CALLED BEFORE RUMBLE MOD ....
     [HarmonyPatch(typeof(VRInputModule))]
     [HarmonyPatch("HandlePointerExitAndEnter")]
     class VRInputModuleHandlePointerExitAndEnterPreFixPatch
     {
         static void Prefix(HapticPresetSO ____rumblePreset)
         {
-            if (FasterScrollController.IsRumbleStrengthValueDirty)
-            {
-                ____rumblePreset._strength = FasterScrollController.RumbleStrength;
+            //if (FasterScrollController.IsRumbleStrengthValueDirty)
+            //{
+//Plugin.Log?.Error($"APPLYING RUMBLE STRENGTH : " + FasterScrollController.RumbleStrength);
+            ____rumblePreset._strength = FasterScrollController.RumbleStrength; // TODO FIX value zero at startup
                 FasterScrollController.IsRumbleStrengthValueDirty = false;
-            }
+            //}
         }
     }
 }

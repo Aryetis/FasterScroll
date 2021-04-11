@@ -4,11 +4,18 @@ using HMUI;
 using IPA.Utilities;
 using VRUIControls;
 using System.Linq;
-using RumbleMod;
+using Libraries.HM.HMLib.VR;
+//using RumbleMod; // TODO will create dependecies at runtime, let's try partial class should work :tm:
 
 #if DEBUG_FASTERSCROLL
 using System.Collections;
 #endif
+
+// TODO also if using settings like "none" rumble will be set at 0 until ScrollView OnEnable() or something alike
+partial class SettingsController : PersistentSingleton<SettingsController>
+{
+    public float strength_ui;
+}
 
 namespace FasterScroll
 {
@@ -32,16 +39,22 @@ namespace FasterScroll
         public static float RumbleStrength { get { return m_fRumbleStrength; } private set { } }
         public static bool IsRumbleStrengthValueDirty;
         public static bool NalunaRumbleModeDetected => IPA.Loader.PluginManager.EnabledPlugins.Any(x => x.Id == "RumbleMod");
+        public static float NalunaRumbleModeStrengthUI => PersistentSingleton<SettingsController>.instance.strength_ui;
         public static float StockRumbleStrength 
         {
             get
             {
                 if (NalunaRumbleModeDetected)
                     return PersistentSingleton<SettingsController>.instance.strength_ui;
+                else if (m_fVanillaStockRumbleStrength.HasValue)
+                    return m_fVanillaStockRumbleStrength.Value;
                 else
-                    return m_fStockRumbleStrength;
+                {
+                    Plugin.Log?.Error("StockRumbleStrength hasn't been initialized properly");
+                    return 1.0f;
+                }
             }
-            set { m_fStockRumbleStrength = value; }
+            set { }
         }
 
 
@@ -63,8 +76,11 @@ namespace FasterScroll
             IsRumbleStrengthValueDirty = false;
             ResetInertia();
             Plugin.Log?.Debug($"{name}: Awake()");
+m_fVanillaStockRumbleStrength = null;
+//m_fRumbleStrength = StockRumbleStrength; // = 0.0f => useless
+//Plugin.Log?.Error($"m_fRumbleStrength Awake Setup : " + FasterScrollController.RumbleStrength);
 #if DEBUG_FASTERSCROLL
-            //StartCoroutine(DebugUpdate());
+            StartCoroutine(DebugUpdate());
 #endif
         }
 
@@ -85,13 +101,18 @@ namespace FasterScroll
             m_fStockScrollSpeed = sv.GetField<float, ScrollView>("_joystickScrollSpeed");
         }
 
-        // No guarantee of getting stockScrollSpeed, depends of when it's called (meant to be called on MainMenu)
-        public static void SetStockRumbleStrength(float f)
+        // No guarantee of getting stockRumbleStrength, depends of when it's called (meant to be called at startup)
+        public static void InitializeRumbleStrengthStuff(VRInputModule vrinmod)
         {
-            if (NalunaRumbleModeDetected)
-                m_fStockRumbleStrength = PersistentSingleton<SettingsController>.instance.strength_ui;
-            else
-                m_fStockRumbleStrength = f;
+            if (!NalunaRumbleModeDetected && !m_fVanillaStockRumbleStrength.HasValue)
+            {
+                HapticPresetSO hapticPreset = vrinmod.GetField<HapticPresetSO, VRInputModule>("_rumblePreset");
+                m_fVanillaStockRumbleStrength = hapticPreset._strength;
+Plugin.Log?.Error("no RumbleMod Detected");
+            }
+
+            m_fRumbleStrength = StockRumbleStrength;
+Plugin.Log?.Error("STOCK RUMBLE STRENGTH : " + m_fVanillaStockRumbleStrength);
         }
 
         public static void ResetInertia()
@@ -172,15 +193,18 @@ namespace FasterScroll
                 case RumbleModeEnum.Override:
                 {
                     m_fRumbleStrength = PluginConfig.Instance.CustomRumbleStrength;
+//Plugin.Log?.Error($"ENTER APPLYING RUMBLE STRENGTH CUSTOM RUMBLE : " + FasterScrollController.RumbleStrength);
                     break;
                 }
                 case RumbleModeEnum.None:
                 {
+//Plugin.Log?.Error($"ENTER APPLYING RUMBLE STRENGTH NONE : " + FasterScrollController.RumbleStrength);
                     m_fRumbleStrength = 0.0f;
                     break;
                 }
                 case RumbleModeEnum.Stock:
                 {
+//Plugin.Log?.Error($"ENTER APPLYING RUMBLE STRENGTH STOCK : " + FasterScrollController.RumbleStrength);
                     m_fRumbleStrength = StockRumbleStrength;
                     break;
                 }
@@ -190,6 +214,7 @@ namespace FasterScroll
 
         public static void PostHandlePointerDidExit()
         {
+//Plugin.Log?.Error($"EXIT APPLYING RUMBLE STRENGTH STOCK : " + FasterScrollController.RumbleStrength);
             if (m_oHaptic == null)
                 SetHapticFeedbackController();
 
@@ -204,7 +229,7 @@ namespace FasterScroll
         private static float m_fStockScrollSpeed;
 
         private static HapticFeedbackController m_oHaptic;
-        private static float m_fStockRumbleStrength; // stock value : 1.0f (will be set ONCE at launch)
+        private static float? m_fVanillaStockRumbleStrength; // stock value : 1.0f (will be set ONCE at launch)
         private static float m_fRumbleStrength;
         #endregion private
 
