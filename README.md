@@ -11,7 +11,7 @@ If a picture is worth a thousand words... How much is it for a gif ? Here's a qu
 ## Why ?
 
 Because if you're like me, you probably have over 9000 problems also known as maps. Therefore you know how much of a drag it can be to look for a song you don't know the exact title, look for a song that you added a couple weeks ago, scroll along your seemingly infinite "favorite" playlist etc 
-![InGameSettings](https://github.com/Aryetis/AutoPauseStealth/blob/master/AutoPauseStealth/Resources/9000Problems.jpg)
+![InGameSettings](https://github.com/Aryetis/FasterScroll/blob/master/FasterScroll/Resources/9000Problems.jpg)
 
 ----------
 
@@ -19,4 +19,4 @@ Because if you're like me, you probably have over 9000 problems also known as ma
 
 How do they work ?
 
-![InGameSettings](https://github.com/Aryetis/AutoPauseStealth/blob/master/AutoPauseStealth/Resources/SettingsMenuInGame.jpg)
+![InGameSettings](https://github.com/Aryetis/FasterScroll/blob/master/FasterScroll/Resources/SettingsMenuInGame.jpg)
