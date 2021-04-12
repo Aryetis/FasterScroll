@@ -64,6 +64,10 @@ How do they work ?
 
 ## Known Issues
 
-None. However this has only be tested on Rift S and Vive Index so far and it's still pretty new. So if you encounter any weird behavior/issues you can :
+"I can't use my joystick to scroll with my Vive Index" : Yes scrolling with joystick inputs with index controllers seems to not be officially supported. And while developing this mod I assumed it was and didn't plan to add extra code to support index controllers. I'll try to see what I can do about that... But without owning an index I'm not sure how far I'll be able to go with this issue. In the meantime if someone figures out a hack using "steam binding" or something else. Please let me know.
+
+"That's it, only one issue?" : Yes that's it so far however this mod is still pretty new, so if you encounter any weird behavior/issues you can :
 - Create a ticket describing the problem <a href="https://github.com/Aryetis/FasterScroll/issues">Here</a> 
 - Join the <a href="https://discord.com/invite/beatsabermods">BSMG discord</a> and ask people over here for help. Might has well ping me while you're at it (@Aryetis#1461)
+
+
