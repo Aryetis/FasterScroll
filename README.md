@@ -64,7 +64,7 @@ How do they work ?
 
 ## Known Issues
 
-"I can't use my joystick to scroll with my Vive Index" : Yes scrolling with joystick inputs with index controllers seems to not be officially supported. And while developing this mod I assumed it was and didn't plan to add extra code to support index controllers. I'll try to see what I can do about that... But without owning an index I'm not sure how far I'll be able to go with this issue. In the meantime if someone figures out a hack using "steam binding" or something else. Please let me know.
+"I can't use my joystick to scroll with my Vive Index" : Yes scrolling with index's joystick input isn't officialy supported by the game. As I don't own an index I assumed it was and didn't plan to add extra code for that. I'll see what I can do about that, but without regular access to a vive it will be difficult to fix this issue. In the meantime <a href="https://www.reddit.com/r/beatsaber/comments/jakcpw/beat_saber_scroll_issue/gdj598y/?utm_source=share&utm_medium=web2x&context=3">someone on reddit pointed out a custom binding</a> that might do the trick for you. 
 
 "That's it, only one issue?" : Yes that's it so far however this mod is still pretty new, so if you encounter any weird behavior/issues you can :
 - Create a ticket describing the problem <a href="https://github.com/Aryetis/FasterScroll/issues">Here</a> 
