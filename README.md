@@ -1,7 +1,7 @@
 # FasterScroll
 
 ```diff
-- Index Controllers users look at the "Known Issues" section below
+- Index users look at the "Known Issues" section below
 ```
 
 ## Description :
