@@ -153,7 +153,11 @@ namespace FasterScroll
         [UIValue("showIndexWarning")]
         private bool m_bShowIndexWarning
         {
-            get => InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).name.ToUpper().Contains("KNUCKLES");
+            get 
+            {
+                InputDevice hand = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+                return (hand.name != null && name.ToUpper().Contains("KNUCKLES")); // hand.name can be null if fpfc
+            }
             set { NotifyPropertyChanged(); }
         }
 

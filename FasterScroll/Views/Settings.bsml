@@ -45,20 +45,19 @@
             hover-hint="Reset settings to default values">
     </button>
   </horizontal>
-  <horizontal horizontal-fit="PreferredSize">
-    <text active="~showIndexWarning" face-color="red" 
+  <horizontal horizontal-fit="PreferredSize" active="~showIndexWarning">
+    <text face-color="red" 
           text="Index detected please use custom binding" 
           hover="I cant do much more about this, sorry"
           align="Center">
     </text>
-    <button active="~showIndexWarning"
-            apply-on-change="true"
+    <button apply-on-change="true"
             on-click="OpenGithubPage"
             text="More Infos (webpage)">
     </button>
   </horizontal>
-  <horizontal horizontal-fit="PreferredSize">
-    <text active="~showTweaks55Warning" face-color="red" 
+  <horizontal horizontal-fit="PreferredSize" active="~showTweaks55Warning">
+    <text face-color="red" 
           text="Tweaks55 detected, please mind its Scroll Speed Multiplier" 
           hover="(leave it to 1.00 if you dont know what you re doing)"
           align="Center">
