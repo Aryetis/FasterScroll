@@ -149,11 +149,11 @@ namespace FasterScroll
             m_oParserParams.EmitEvent("cancel");
         }
 
-        // Stock Scroll => Hide MaxSpeed
+        // Knuckles ? => show CustomBinding tip
         [UIValue("showIndexWarning")]
         private bool m_bShowIndexWarning
         {
-            get => InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).name.ToUpper().Contains("INDEX");
+            get => InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).name.ToUpper().Contains("KNUCKLES");
             set { NotifyPropertyChanged(); }
         }
 
@@ -163,7 +163,7 @@ namespace FasterScroll
             System.Diagnostics.Process.Start("https://github.com/Aryetis/FasterScroll");
         }
 
-        // Stock Scroll => Hide MaxSpeed
+        // Tweaks55 => show scroll speed multiplier stack reminder
         [UIValue("showTweaks55Warning")]
         private bool m_bShowTweaks55Warning
         {
