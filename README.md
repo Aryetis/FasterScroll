@@ -75,7 +75,7 @@ How do they work ?
 - "Scrolling's speed is way faster than it should be. Event at stock speed" : Have you installed Kinsi55's Tweaks55 mod ? If so check its settings, there should be a Scroll speed multiplier (soon :tm:). This multiplier (x1 by default) should stack with whatever settings you have set in FasterScroll. Leave it at 1.00 if you don't know what you're doing :3.
 
 - "That's it?" : Yes that's it so far however this mod is still pretty new, so if you encounter any weird behavior/issues you can :
-- Create a ticket describing the problem <a href="https://github.com/Aryetis/FasterScroll/issues">Here</a> 
-- Join the <a href="https://discord.com/invite/beatsabermods">BSMG discord</a> and ask people over here for help. Might has well ping me while you're at it (@Aryetis#1461)
+    - Create a ticket describing the problem <a href="https://github.com/Aryetis/FasterScroll/issues">Here</a> 
+    - Join the <a href="https://discord.com/invite/beatsabermods">BSMG discord</a> and ask people over here for help. Might has well ping me while you're at it (@Aryetis#1461)
 
 
