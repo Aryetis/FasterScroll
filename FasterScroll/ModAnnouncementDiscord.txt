@@ -7,6 +7,7 @@ Features :
 - 3 rumble modes (Override, None, Stock) to fine tune those vibs
 - RumbleMod's compatibility
 - An overextended description
+- (probably some bugs, it's an early version, if you find some contact me)
 
 Github's page : <https://github.com/Aryetis/FasterScroll>
 

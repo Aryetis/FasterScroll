@@ -13,14 +13,14 @@
 						value="Accel" 
 						text="Scroll Acceleration"
 						hover-hint="Scroll Acceleration, the higher the faster it will reach MaxSpeed"
-						min="1" max="2" increment="0.1"></slider-setting>
+						min="1" max="2" increment="0.05"></slider-setting>
 	</horizontal>
 	<horizontal horizontal-fit="PreferredSize" active="~showMaxSpeed">
 		<slider-setting apply-on-change="true" 
 						value="MaxSpeed" 
 						text="Scroll Max Speed"
 						hover-hint="Scrolling's max speed (default is 60)"
-						min="50" max="3000" increment="50"></slider-setting>
+						min="50" max="2000" increment="25"></slider-setting>
 	</horizontal>
 	<horizontal horizontal-fit="PreferredSize">
 		<dropdown-list-setting  apply-on-change="true"
@@ -44,5 +44,24 @@
             text="Reset Settings"
             hover-hint="Reset settings to default values">
     </button>
+  </horizontal>
+  <horizontal horizontal-fit="PreferredSize">
+    <text active="~showIndexWarning" face-color="red" 
+          text="Index detected please use custom binding" 
+          hover="I cant do much more about this, sorry"
+          align="Center">
+    </text>
+    <button active="~showIndexWarning"
+            apply-on-change="true"
+            on-click="OpenGithubPage"
+            text="More Infos (webpage)">
+    </button>
+  </horizontal>
+  <horizontal horizontal-fit="PreferredSize">
+    <text active="~showTweaks55Warning" face-color="red" 
+          text="Tweaks55 detected, please mind its Scroll Speed Multiplier" 
+          hover="(leave it to 1.00 if you dont know what you re doing)"
+          align="Center">
+    </text>
   </horizontal>
 </settings-container>

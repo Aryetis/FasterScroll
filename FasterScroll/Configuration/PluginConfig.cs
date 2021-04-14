@@ -19,7 +19,7 @@ namespace FasterScroll
         public const FasterScrollController.FasterScrollModeEnum DefaultFasterScrollMode
                                         = FasterScrollController.FasterScrollModeEnum.Exp;
         public const float DefaultAccel = 1.0f;
-        public const float DefaultMaxSpeed = 1000.00f;
+        public const float DefaultMaxSpeed = 600.00f;
         public const FasterScrollController.RumbleModeEnum DefaultCustomRumbleMode = FasterScrollController.RumbleModeEnum.Override;
         public const float DefaultCustomRumbleStrength = 0.15f;
         /////////////////////////////////////////////

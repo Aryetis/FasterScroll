@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BeatSaberMarkupLanguage.Components;
 using BeatSaberMarkupLanguage.Parser;
+using UnityEngine.XR;
 
 namespace FasterScroll
 {
@@ -146,6 +147,28 @@ namespace FasterScroll
             m_fCustomRumbleStrength = PluginConfig.DefaultCustomRumbleStrength;
             m_bShowCustomRumbleStrength = true;
             m_oParserParams.EmitEvent("cancel");
+        }
+
+        // Stock Scroll => Hide MaxSpeed
+        [UIValue("showIndexWarning")]
+        private bool m_bShowIndexWarning
+        {
+            get => InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).name.ToUpper().Contains("INDEX");
+            set { NotifyPropertyChanged(); }
+        }
+
+        [UIAction("OpenGithubPage")]
+        private void OpenGithubPage()
+        {
+            System.Diagnostics.Process.Start("https://github.com/Aryetis/FasterScroll");
+        }
+
+        // Stock Scroll => Hide MaxSpeed
+        [UIValue("showTweaks55Warning")]
+        private bool m_bShowTweaks55Warning
+        {
+            get => IPA.Loader.PluginManager.EnabledPlugins.Any(x => x.Id == "Tweaks55");
+            set { NotifyPropertyChanged(); }
         }
     }
 }
