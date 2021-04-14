@@ -1,7 +1,7 @@
 # FasterScroll
 
 ```diff
-- Index users please read the "Known Issues" section below
+- Index/Knuckles users please read the "Known Issues" section below
 ```
 
 ## Description :
@@ -68,7 +68,7 @@ How do they work ?
 
 ## Known Issues
 
-- "I can't use my joystick to scroll with my Vive Index" : Yes scrolling with index's joystick input isn't officialy supported by the game. As I don't own an index I assumed it was and didn't plan to add extra code for that. I'll see what I can do about that, but without regular access to a vive it will be difficult to fix this issue. In the meantime <a href="https://www.reddit.com/r/beatsaber/comments/jakcpw/beat_saber_scroll_issue/gdj598y/?utm_source=share&utm_medium=web2x&context=3">someone on reddit pointed out a custom binding</a> named "1.12.2 Playlist Scrolling Fix", I got multiple sources confirming me that it did fix the issues for them. Or you can <a href="https://www.youtube.com/watch?v=Bb4YKwmYvWk">create your own CustomBinding</a> for it.
+- "I can't use my joystick to scroll with my Vive Index" : Yes scrolling with Knuckles isn't officialy supported by the game. As I don't own an index I assumed it was and didn't plan to add extra code for that. I'll see what I can do about that, but without regular access to a vive it will be difficult to fix this issue. In the meantime <a href="https://www.reddit.com/r/beatsaber/comments/jakcpw/beat_saber_scroll_issue/gdj598y/?utm_source=share&utm_medium=web2x&context=3">someone on reddit pointed out a custom binding</a> named "1.12.2 Playlist Scrolling Fix", I got multiple sources confirming me that it did fix the issues for them. Or you can <a href="https://www.youtube.com/watch?v=Bb4YKwmYvWk">create your own CustomBinding</a> for it.
 ![InGameSettings](https://github.com/Aryetis/FasterScroll/blob/master/FasterScroll/Resources/CustomBindings.jpg)
 
 
