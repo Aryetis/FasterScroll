@@ -7,7 +7,7 @@
   "description": "Increase SongList scrolling's speed to your own taste, change its acceleration curve, tweak its rumble effects",
   "gameVersion": "1.14.0",
   "dependsOn": {
-    "BeatSaberMarkupLanguage": "^1.5.1",
+    "BeatSaberMarkupLanguage": "^1.5.2",
     "BSIPA": "^4.1.6"
   },
   "links": {
