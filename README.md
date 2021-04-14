@@ -52,7 +52,7 @@ How do they work ?
 
 - Check the <a href="https://github.com/Aryetis/FasterScroll/releases">Release page</a> and donwload the latest FasterScroll-\*.\*.\*-gibberish.zip
 
-- Use ModAssistant to install the bare minimal mods / requirements : BSIPA, BeatSaberMarkupLanguage
+- Use <a href="https://github.com/Assistant/ModAssistant">ModAssistant</a> to install the bare minimal mods / requirements : BSIPA, BeatSaberMarkupLanguage
 
 - Copy the FasterScroll.dll from the release's page .zip in the following folder [SteamFolder]\steamapps\common\Beat Saber\Plugins
 
@@ -64,6 +64,10 @@ How do they work ?
 
 ## Known Issues
 
-None. However this has only be tested on Rift S so far and it's still pretty new. So if you encounter any weird behavior/issues you can :
+"I can't use my joystick to scroll with my Vive Index" : Yes scrolling with index's joystick input isn't officialy supported by the game. As I don't own an index I assumed it was and didn't plan to add extra code for that. I'll see what I can do about that, but without regular access to a vive it will be difficult to fix this issue. In the meantime <a href="https://www.reddit.com/r/beatsaber/comments/jakcpw/beat_saber_scroll_issue/gdj598y/?utm_source=share&utm_medium=web2x&context=3">someone on reddit pointed out a custom binding</a> that might do the trick for you. 
+
+"That's it, only one issue?" : Yes that's it so far however this mod is still pretty new, so if you encounter any weird behavior/issues you can :
 - Create a ticket describing the problem <a href="https://github.com/Aryetis/FasterScroll/issues">Here</a> 
 - Join the <a href="https://discord.com/invite/beatsabermods">BSMG discord</a> and ask people over here for help. Might has well ping me while you're at it (@Aryetis#1461)
+
+
