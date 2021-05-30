@@ -69,8 +69,9 @@ How do they work ?
 - "I can't use my joystick to scroll with my Vive Index" : Yes scrolling with Knuckles isn't officialy supported by the game. As I don't own an index I assumed it was and didn't plan to add extra code for that. I'll see what I can do about that, but without regular access to a vive it will be difficult to fix this issue. In the meantime <a href="https://www.reddit.com/r/beatsaber/comments/jakcpw/beat_saber_scroll_issue/gdj598y/?utm_source=share&utm_medium=web2x&context=3">someone on reddit pointed out a custom binding</a> named "1.12.2 Playlist Scrolling Fix", I got multiple sources confirming me that it did fix the issues for them. Or you can <a href="https://www.youtube.com/watch?v=Bb4YKwmYvWk">create your own CustomBinding</a> for it.
 ![InGameSettings](https://github.com/Aryetis/FasterScroll/blob/master/FasterScroll/Resources/CustomBindings.jpg)
 
-
 - "Scrolling's speed is way faster than it should be. Event at stock speed" : Have you installed Kinsi55's Tweaks55 mod ? If so check its settings, there should be a Scroll speed multiplier (soon :tm:). This multiplier (x1 by default) should stack with whatever settings you have set in FasterScroll. Leave it at 1.00 if you don't know what you're doing :3.
+
+- "It's scrolling up/down on its own ! I'm not even pressing anything !" : This probably has nothing to do with FasterScroll. If you have any joystick, hotas, any weird usb controller, etc disconnect them and relaunch the game. 99% of the time it should fix the issue. 
 
 - "That's it?" : Yes that's it so far. But hey, if you encounter any weird behavior/issues you can :
     - Create a ticket describing the problem <a href="https://github.com/Aryetis/FasterScroll/issues">Here</a> 
