@@ -3,11 +3,11 @@
   "id": "FasterScroll",
   "name": "FasterScroll",
   "author": "Aryetis",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Increase SongList scrolling's speed to your own taste, change its acceleration curve, tweak its rumble effects",
-  "gameVersion": "1.14.0",
+  "gameVersion": "1.16.1",
   "dependsOn": {
-    "BeatSaberMarkupLanguage": "^1.5.2",
+    "BeatSaberMarkupLanguage": "^1.5.3",
     "BSIPA": "^4.1.6"
   },
   "links": {
