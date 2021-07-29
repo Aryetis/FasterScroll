@@ -5,6 +5,6 @@ No changes, marely recompiled it for future beatmods submission. Don't be a loos
 Index users, please check github page for Knuckles support.
 
 Github's page : <https://github.com/Aryetis/FasterScroll>
-Requirements:
+__Requirements__:
 - BeatSaberMarkupLanguage (BSML)
 Preview : https://imgur.com/a/sFR0VaJ
