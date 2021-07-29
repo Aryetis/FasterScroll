@@ -1,13 +1,10 @@
-**FasterScroll v0.0.2**
+**FasterScroll v1.0.3**
 
-Increase SongList scrolling's speed to your own taste, change its acceleration curve, its max speed (only affect joystick input). Tweak its rumbling effect too if you want. It should be fully compatible with nalulululuna's RumbleMod settings so don't worry about overriding stuff here. No more worries, no time for this you gotta go fast, no more time wasted scrolling for song at snail pace.
+Increase SongList scrolling's speed to your own taste, change its acceleration curve, tweak its rumbling, etc (Check mod settings). This mod should be fully compatible with nalulululuna's RumbleMod and Tweaks55. 
 
-Features : 
-- 4 speed curves (Constant, Linear, Exponential, Stock/Default) with their own customizable settings 
-- 3 rumble modes (Override, None, Stock) to fine tune those vibs
-- RumbleMod's compatibility
-- An overextended description
-- (probably some bugs, it's an early version, if you find some contact me)
+No changes, marely recompiled it for future beatmods submission. Don't be a looser, scroll faster !
+
+Index users, please check github page for Knuckles support.
 
 Github's page : <https://github.com/Aryetis/FasterScroll>
 
