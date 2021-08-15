@@ -19,8 +19,6 @@ If a picture is worth a thousand words... How much is it for a gif ? Here's a qu
 
 Because if you're like me, you probably have over 9000 problems also known as maps. Therefore you know how much of a drag it can be to look for a song you don't know the exact title, look for a song that you added a couple weeks ago, scroll along your seemingly infinite "favorite" playlist etc...
 
-"But why don't you use the scroll bar handle ?" : Because it's gone! It's too small to grab! I don't waste my time fixing non existing problem.
-
 ----------
 
 ## Settings :
@@ -71,14 +69,18 @@ How do they work ?
 - "I can't use my joystick to scroll with my Vive Index" : Yes scrolling with Knuckles isn't officialy supported by the game. As I don't own an index I assumed it was and didn't plan to add extra code for that. I'll see what I can do about that, but without regular access to a vive it will be difficult to fix this issue. In the meantime <a href="https://www.reddit.com/r/beatsaber/comments/jakcpw/beat_saber_scroll_issue/gdj598y/?utm_source=share&utm_medium=web2x&context=3">someone on reddit pointed out a custom binding</a> named "1.12.2 Playlist Scrolling Fix", I got multiple sources confirming me that it did fix the issues for them. Or you can <a href="https://www.youtube.com/watch?v=Bb4YKwmYvWk">create your own CustomBinding</a> for it.
 ![InGameSettings](https://github.com/Aryetis/FasterScroll/blob/master/FasterScroll/Resources/CustomBindings.jpg)
 
-
 - "Scrolling's speed is way faster than it should be. Event at stock speed" : Have you installed Kinsi55's Tweaks55 mod ? If so check its settings, there should be a Scroll speed multiplier (soon :tm:). This multiplier (x1 by default) should stack with whatever settings you have set in FasterScroll. Leave it at 1.00 if you don't know what you're doing :3.
 
 - "But I play on Quest ! How do I make it works" : You don't, this mod is for the PC version. However there is an equivalent to this mod for quest named <a href="https://github.com/Christoffyw/FasterScrollQuest">FasterScrollQuest</a> made by Christoffyw. I am not responsible for it nor do I know how to mod for quest. So you are on your own, google stuff, ask about it in bsmg discord, etc.
 
+- "It's scrolling up/down on its own ! I'm not even pressing anything !" : This probably has nothing to do with FasterScroll. If you have any joystick, hotas, any weird usb controller, etc disconnect them and relaunch the game. 99% of the time it should fix the issue. 
 
-- "That's it?" : Yes that's it so far however this mod is still pretty new, so if you encounter any weird behavior/issues you can :
+- "That's it?" : Yes that's it so far. But hey, if you encounter any weird behavior/issues you can :
     - Create a ticket describing the problem <a href="https://github.com/Aryetis/FasterScroll/issues">Here</a> 
-    - Join the <a href="https://discord.com/invite/beatsabermods">BSMG discord</a> and ask people over here for help. Might has well ping me while you're at it (@Aryetis#1461)
+    - Join the <a href="https://discord.com/invite/beatsabermods">BSMG discord</a> and ask people over here for help in the #pc-help channel. Might has well ping me while you're at it (@Aryetis#1461)
 
+----------
 
+## Licensing 
+
+This mod and its source code is under the <a href="https://github.com/Aryetis/FasterScroll/blob/master/LICENSE">MIT License</a>
