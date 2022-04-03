@@ -193,6 +193,7 @@ namespace FasterScroll
             if (m_oHaptic == null)
                 SetHapticFeedbackController();
 
+            ResetInertia();
             m_fRumbleStrength = StockRumbleStrength;
         }
 
