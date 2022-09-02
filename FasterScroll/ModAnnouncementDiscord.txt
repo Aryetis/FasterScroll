@@ -4,9 +4,13 @@ Increase SongList scrolling's speed to your own taste, change its acceleration c
 No changes, marely recompiled it for future beatmods submission. Don't be a looser, scroll faster !
 Index users, please check github page for Knuckles support.
 
+__Changelog__:
+- Bumping up version to 0.1.17 for beatmods submission
+- Inertia should now reset when moving pointer outside of SongList zone
+
 __Requirements__:
 - BeatSaberMarkupLanguage (BSML)
 
-Github's page : <https://github.com/Aryetis/FasterScroll>
+Github's download page : <https://github.com/Aryetis/FasterScroll/releases/tag/1.0.7>
 
 Preview : https://imgur.com/a/sFR0VaJ
