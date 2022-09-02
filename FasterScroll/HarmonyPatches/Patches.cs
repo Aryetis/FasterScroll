@@ -17,7 +17,7 @@ namespace FasterScroll.Patches
     {
         static void Prefix(ScrollView __instance)
         {
-            if (__instance.transform.parent.gameObject.name == "LevelsTableView")
+            if (__instance.transform.parent != null && __instance.transform.parent.gameObject.name == "LevelsTableView")
                 FasterScrollController.SetStockScrollSpeed(__instance); 
             return;
         }
@@ -63,7 +63,7 @@ namespace FasterScroll.Patches
         {
             if ((FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Exp
                     || FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Linear
-                  ) && __instance.transform.parent.gameObject.name == "LevelsTableView")
+                  ) && __instance.transform.parent != null && __instance.transform.parent.gameObject.name == "LevelsTableView")
                 FasterScrollController.ScrollViewPatcherDynamic(__instance);
         }
     }
@@ -77,7 +77,7 @@ namespace FasterScroll.Patches
         {
             if ((FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Exp
                     || FasterScrollController.FasterScrollMode == FasterScrollController.FasterScrollModeEnum.Linear
-                 ) && __instance.transform.parent.gameObject.name == "LevelsTableView")
+                 ) && __instance.transform.parent != null && __instance.transform.parent.gameObject.name == "LevelsTableView")
                 FasterScrollController.ResetInertia();
         }
     }
@@ -92,7 +92,7 @@ namespace FasterScroll.Patches
     {
         static void Prefix(ScrollView __instance, PointerEventData eventData)
         {
-            if (__instance.transform.parent.gameObject.name == "LevelsTableView")
+            if (__instance.transform.parent != null && __instance.transform.parent.gameObject.name == "LevelsTableView")
                 FasterScrollController.PostHandlePointerDidEnter();
         }
     }
@@ -104,7 +104,7 @@ namespace FasterScroll.Patches
     {
         static void Prefix(ScrollView __instance, PointerEventData eventData)
         {
-            if (__instance.transform.parent.gameObject.name == "LevelsTableView")
+            if (__instance.transform.parent != null && __instance.transform.parent.gameObject.name == "LevelsTableView")
                 FasterScrollController.PostHandlePointerDidExit();
         }
     }
@@ -119,6 +119,9 @@ namespace FasterScroll.Patches
         [HarmonyAfter(new string[] { "com.github.nalulululuna.RumbleMod" })]
         static void Prefix(HapticPresetSO ____rumblePreset)
         {
+            if (FasterScrollController.RumbleStrength < 0.0f)
+                return; // if RumbleMod's installed, outside of Songlist RumbleStrength's value <=> StockRumbleStrength <=> -1.0f
+
             ____rumblePreset._strength = FasterScrollController.RumbleStrength;
         }
     }

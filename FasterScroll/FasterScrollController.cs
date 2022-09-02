@@ -33,7 +33,9 @@ namespace FasterScroll
         public static FasterScrollModeEnum FasterScrollMode { get { return PluginConfig.Instance.FasterScrollMode; } private set {} }
         public static float RumbleStrength { get { return m_fRumbleStrength; } private set { } }
         public static bool NalunaRumbleModeDetected => IPA.Loader.PluginManager.EnabledPlugins.Any(x => x.Id == "RumbleMod");
-        public static float StockRumbleStrength 
+        public static float StockRumbleStrength { get; set; }
+
+/*        public static float StockRumbleStrength
         {
             get
             {
@@ -48,12 +50,8 @@ namespace FasterScroll
                 }
             }
             set { }
-        }
+        }*/
 
-        public static float GetNalunaRumbleModStrengthUI()
-        {
-            return PersistentSingleton<SettingsController>.instance.strength_ui;
-        }
 
         /******************************
          *      Basic Unity Stuff     *
@@ -70,7 +68,7 @@ namespace FasterScroll
             Instance = this;
 
             ResetInertia();
-            m_fVanillaStockRumbleStrength = null;
+            StockRumbleStrength = -1.0f;
             Plugin.Log?.Debug($"{name}: Awake()");
 #if DEBUG_FASTERSCROLL
             StartCoroutine(DebugUpdate());
@@ -96,10 +94,10 @@ namespace FasterScroll
         // No guarantee of getting stockRumbleStrength, depends of when it's called (meant to be called at startup)
         public static void InitializeRumbleStrengthStuff(VRInputModule vrinmod)
         {
-            if (!NalunaRumbleModeDetected && !m_fVanillaStockRumbleStrength.HasValue)
+            if (!NalunaRumbleModeDetected && StockRumbleStrength == -1.0f)
             {
                 HapticPresetSO hapticPreset = vrinmod.GetField<HapticPresetSO, VRInputModule>("_rumblePreset");
-                m_fVanillaStockRumbleStrength = hapticPreset._strength;
+                StockRumbleStrength = hapticPreset._strength;
             }
 
             m_fRumbleStrength = StockRumbleStrength;
@@ -213,7 +211,7 @@ namespace FasterScroll
         private static float m_fStockScrollSpeed;
 
         private static HapticFeedbackController m_oHaptic;
-        private static float? m_fVanillaStockRumbleStrength; // stock value : 1.0f (will be set ONCE at launch)
+        //private static float m_fVanillaStockRumbleStrength; // stock value : 1.0f (will be set ONCE at launch)
         private static float m_fRumbleStrength;
 
         /******************************
