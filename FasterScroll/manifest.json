@@ -5,7 +5,7 @@
   "author": "Aryetis",
   "version": "1.0.8",
   "description": "Increase SongList scrolling's speed to your own taste, change its acceleration curve, tweak its rumble effects",
-  "gameVersion": "1.24.0",
+  "gameVersion": "1.24.1",
   "dependsOn": {
     "BeatSaberMarkupLanguage": "^1.6.8",
     "BSIPA": "^4.2.2"
