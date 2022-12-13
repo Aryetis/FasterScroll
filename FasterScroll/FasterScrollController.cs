@@ -5,7 +5,6 @@ using IPA.Utilities;
 using VRUIControls;
 using System.Linq;
 using Libraries.HM.HMLib.VR;
-using RumbleMod;
 
 #if DEBUG_FASTERSCROLL
 using System.Collections;
