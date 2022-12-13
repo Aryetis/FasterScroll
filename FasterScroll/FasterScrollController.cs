@@ -34,24 +34,6 @@ namespace FasterScroll
         public static bool NalunaRumbleModeDetected => IPA.Loader.PluginManager.EnabledPlugins.Any(x => x.Id == "RumbleMod");
         public static float StockRumbleStrength { get; set; }
 
-/*        public static float StockRumbleStrength
-        {
-            get
-            {
-                if (NalunaRumbleModeDetected)
-                    return GetNalunaRumbleModStrengthUI();
-                else if (m_fVanillaStockRumbleStrength.HasValue)
-                    return m_fVanillaStockRumbleStrength.Value;
-                else
-                {
-                    Plugin.Log?.Warn("StockRumbleStrength hasn't been initialized properly");
-                    return 1.0f;
-                }
-            }
-            set { }
-        }*/
-
-
         /******************************
          *      Basic Unity Stuff     *
          ******************************/
