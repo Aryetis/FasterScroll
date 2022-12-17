@@ -5,7 +5,6 @@ using IPA.Utilities;
 using VRUIControls;
 using System.Linq;
 using Libraries.HM.HMLib.VR;
-using RumbleMod;
 
 #if DEBUG_FASTERSCROLL
 using System.Collections;
@@ -34,24 +33,6 @@ namespace FasterScroll
         public static float RumbleStrength { get { return m_fRumbleStrength; } private set { } }
         public static bool NalunaRumbleModeDetected => IPA.Loader.PluginManager.EnabledPlugins.Any(x => x.Id == "RumbleMod");
         public static float StockRumbleStrength { get; set; }
-
-/*        public static float StockRumbleStrength
-        {
-            get
-            {
-                if (NalunaRumbleModeDetected)
-                    return GetNalunaRumbleModStrengthUI();
-                else if (m_fVanillaStockRumbleStrength.HasValue)
-                    return m_fVanillaStockRumbleStrength.Value;
-                else
-                {
-                    Plugin.Log?.Warn("StockRumbleStrength hasn't been initialized properly");
-                    return 1.0f;
-                }
-            }
-            set { }
-        }*/
-
 
         /******************************
          *      Basic Unity Stuff     *
@@ -211,7 +192,6 @@ namespace FasterScroll
         private static float m_fStockScrollSpeed;
 
         private static HapticFeedbackController m_oHaptic;
-        //private static float m_fVanillaStockRumbleStrength; // stock value : 1.0f (will be set ONCE at launch)
         private static float m_fRumbleStrength;
 
         /******************************
